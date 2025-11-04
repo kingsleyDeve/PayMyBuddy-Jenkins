@@ -36,21 +36,6 @@ pipeline {
                 }
              }
         }
-       
-     agent none
-     stages {
-         stage('Build image') {
-             agent any
-             steps {
-                script {
-                  sh '''
-                    docker build -t ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG .
-                    docker push 
-                  '''
-                }
-                
-             }
-        }
         stage('Run container based on builded image') {
             agent any
             steps {
