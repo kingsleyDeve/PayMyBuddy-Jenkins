@@ -26,13 +26,13 @@ pipeline {
              }
         }
 
-       agent none
+     agent none
      stages {
          stage('sonarcloud') {
              agent any
              steps {
                 script {
-                  sh ' '
+                  sh 'echo "sonar" '
                 }
              }
         }
@@ -127,7 +127,7 @@ pipeline {
      }
   }
      
-  post {
+     post {
        success {
          slackSend (color: '#00FF00', message: "kingsley - SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}) - PROD URL => http://${PROD_APP_ENDPOINT} , STAGING URL => http://${STG_APP_ENDPOINT}")
          }
