@@ -23,8 +23,8 @@ pipeline {
             agent any
             steps {
                 sh '''
-                   sudo apt update -y
-                   sudo apt install -y maven
+                   sudo yum update -y
+                   sudo yum install -y maven
                    mvn test
                 '''
             }
