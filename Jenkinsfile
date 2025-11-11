@@ -7,7 +7,6 @@ pipeline {
         IMAGE_TAG = "latest"
         APP_NAME = "kingsley"
 
-        // Endpoints
         STG_API_ENDPOINT = "ip10-0-21-4-d44hi0657ed000arbc9g-1993.direct.docker.labs.eazytraining.fr"
         STG_APP_ENDPOINT = "ip10-0-21-4-d44hi0657ed000arbc9g-80.direct.docker.labs.eazytraining.fr"
         PROD_API_ENDPOINT = "ip10-0-21-6-d44hi0657ed000arbc9g-1993.direct.docker.labs.eazytraining.fr"
@@ -19,77 +18,61 @@ pipeline {
     }
 
     stages {
-        
+
         stage('Test') {
+            agent any
             steps {
                 sh '''
-                   sudo apt install maven
-                   mvn test   
-                ''' 
+                   sudo apt update -y
+                   sudo apt install -y maven
+                   mvn test
+                '''
             }
         }
-    
-
-    post {
-        always {
-            junit 'target/surefire-reports/*.xml'
-        }
-    }
-
 
         stage('SonarCloud') {
             agent any
             steps {
-                script {
-                    sh 'echo "sonar"'
-                }
+                sh 'echo "sonar"'
             }
         }
 
         stage('Run container based on built image') {
             agent any
             steps {
-                script {
-                    sh '''
-                        echo "Clean Environment"
-                        docker rm -f $IMAGE_NAME || echo "container does not exist"
-                        docker run --name $IMAGE_NAME -d -p ${PORT_EXPOSED}:${INTERNAL_PORT} \
-                        -e PORT=${INTERNAL_PORT} ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG
-                        sleep 5
-                    '''
-                }
+                sh '''
+                    echo "Clean Environment"
+                    docker rm -f $IMAGE_NAME || echo "container does not exist"
+                    docker run --name $IMAGE_NAME -d -p ${PORT_EXPOSED}:${INTERNAL_PORT} \
+                    -e PORT=${INTERNAL_PORT} ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG
+                    sleep 5
+                '''
             }
         }
 
         stage('Test image') {
             agent any
             steps {
-                script {
-                    sh 'curl http://172.17.0.1:${PORT_EXPOSED}'
-                }
+                sh 'curl http://172.17.0.1:${PORT_EXPOSED}'
             }
         }
 
         stage('Clean Container') {
             agent any
             steps {
-                script {
-                    sh '''
-                        docker stop $IMAGE_NAME
-                        docker rm $IMAGE_NAME
-                    '''
-                }
+                sh '''
+                    docker stop $IMAGE_NAME
+                    docker rm $IMAGE_NAME
+                '''
             }
         }
 
         stage('Save Artefact') {
             agent any
             steps {
-                script {
-                    sh '''
-                        docker save ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG > /tmp/alpinehelloworld.tar
-                    '''
-                }
+                sh '''
+                    docker save ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG > /tmp/alpinehelloworld.tar
+                '''
             }
         }
 
@@ -99,44 +82,39 @@ pipeline {
                 DOCKERHUB_PASSWORD = credentials('dockerhub-credentials')
             }
             steps {
-                script {
-                    sh '''
-                        echo $DOCKERHUB_PASSWORD_PSW | docker login -u $ID_DOCKER --password-stdin
-                        docker push ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG
-                    '''
-                }
+                sh '''
+                    echo $DOCKERHUB_PASSWORD_PSW | docker login -u $ID_DOCKER --password-stdin
+                    docker push ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG
+                '''
             }
         }
 
         stage('STAGING - Deploy app') {
             agent any
             steps {
-                script {
-                    sh """
-                        echo '{\\"your_name\\":\\"${APP_NAME}\\",\\"container_image\\":\\"${CONTAINER_IMAGE}\\", \\"external_port\\":\\"${EXTERNAL_PORT}\\", \\"internal_port\\":\\"${INTERNAL_PORT}\\"}' > data.json 
-                        curl -X POST http://${STG_API_ENDPOINT}/staging -H 'Content-Type: application/json' --data-binary @data.json 
-                    """
-                }
+                sh """
+                    echo '{\\"your_name\\":\\"${APP_NAME}\\",\\"container_image\\":\\"${CONTAINER_IMAGE}\\", \\"external_port\\":\\"${EXTERNAL_PORT}\\", \\"internal_port\\":\\"${INTERNAL_PORT}\\"}' > data.json 
+                    curl -X POST http://${STG_API_ENDPOINT}/staging -H 'Content-Type: application/json' --data-binary @data.json 
+                """
             }
         }
 
         stage('PRODUCTION - Deploy app') {
-            when {
-                expression { env.GIT_BRANCH == 'origin/main' }
-            }
+            when { expression { env.GIT_BRANCH == 'origin/main' } }
             agent any
             steps {
-                script {
-                    sh """
-                        curl -X POST http://${PROD_API_ENDPOINT}/prod -H 'Content-Type: application/json' \
-                        -d '{"your_name":"${APP_NAME}","container_image":"${CONTAINER_IMAGE}", "external_port":"${EXTERNAL_PORT}", "internal_port":"${INTERNAL_PORT}"}'
-                    """
-                }
+                sh """
+                    curl -X POST http://${PROD_API_ENDPOINT}/prod -H 'Content-Type: application/json' \
+                    -d '{"your_name":"${APP_NAME}","container_image":"${CONTAINER_IMAGE}", "external_port":"${EXTERNAL_PORT}", "internal_port":"${INTERNAL_PORT}"}'
+                """
             }
         }
     }
 
     post {
+        always {
+            junit 'target/surefire-reports/*.xml'
+        }
         success {
             slackSend(
                 color: '#00FF00',
@@ -148,6 +126,10 @@ pipeline {
                 color: '#FF0000',
                 message: "kingsley - FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
             )
+        }
+    }
+}
+
         }
     }
 }
