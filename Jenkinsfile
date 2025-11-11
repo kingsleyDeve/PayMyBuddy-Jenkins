@@ -24,7 +24,7 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                   sudo apt install mvn
+                   sudo apt install maven
                    mvn test
                     
                 ''' 
