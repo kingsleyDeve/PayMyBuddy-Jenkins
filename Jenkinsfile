@@ -19,8 +19,7 @@ pipeline {
     }
 
     stages {
-
-        stages {
+        
         stage('Test') {
             steps {
                 sh '''
@@ -29,14 +28,14 @@ pipeline {
                 ''' 
             }
         }
-    }
+    
 
     post {
         always {
             junit 'target/surefire-reports/*.xml'
         }
     }
-}
+
 
         stage('SonarCloud') {
             agent any
