@@ -23,7 +23,11 @@ pipeline {
         stages {
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh '''
+                   sudo apt install mvn
+                   mvn test
+                    
+                ''' 
             }
         }
     }
