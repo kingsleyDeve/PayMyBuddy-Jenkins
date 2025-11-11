@@ -25,8 +25,7 @@ pipeline {
             steps {
                 sh '''
                    sudo apt install maven
-                   mvn test
-                    
+                   mvn test   
                 ''' 
             }
         }
