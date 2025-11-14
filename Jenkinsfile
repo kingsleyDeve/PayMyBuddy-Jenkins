@@ -7,10 +7,10 @@ pipeline {
         IMAGE_TAG = "latest"
         APP_NAME = "kingsley"
 
-        STG_API_ENDPOINT = "ip10-0-21-4-d44hi0657ed000arbc9g-1993.direct.docker.labs.eazytraining.fr"
-        STG_APP_ENDPOINT = "ip10-0-21-4-d44hi0657ed000arbc9g-80.direct.docker.labs.eazytraining.fr"
-        PROD_API_ENDPOINT = "ip10-0-21-6-d44hi0657ed000arbc9g-1993.direct.docker.labs.eazytraining.fr"
-        PROD_APP_ENDPOINT = "ip10-0-21-6-d44hi0657ed000arbc9g-80.direct.docker.labs.eazytraining.fr"
+        STG_API_ENDPOINT = "ip10-0-57-8-d4bogugltosglhl3v92g-1993.direct.docker.labs.eazytraining.fr"
+        STG_APP_ENDPOINT = "ip10-0-57-8-d4bogugltosglhl3v92g-80.direct.docker.labs.eazytraining.fr"
+        PROD_API_ENDPOINT = "ip10-0-57-9-d4bogugltosglhl3v92g-1993.direct.docker.labs.eazytraining.fr"
+        PROD_APP_ENDPOINT = "ip10-0-57-9-d4bogugltosglhl3v92g-80.direct.docker.labs.eazytraining.fr"
 
         INTERNAL_PORT = "5000"
         EXTERNAL_PORT = "${PORT_EXPOSED}"
