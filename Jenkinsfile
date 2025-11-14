@@ -24,9 +24,25 @@ pipeline {
             steps {
                 sh '''
             
-            sudo yum install -y maven
-            mvn -v   # Check version
-            mvn verify
+            # Version Maven compatible Spring Boot 2.7.x
+            MAVEN_VERSION=3.9.6
+
+            echo "=== Download Maven ${MAVEN_VERSION} ==="
+            curl -L -o apache-maven.tar.gz \
+              https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
+
+            echo "=== Install Maven ==="
+            sudo tar -xzf apache-maven.tar.gz -C /opt
+            sudo ln -sfn /opt/apache-maven-${MAVEN_VERSION} /opt/maven
+
+            echo "=== Add Maven to PATH ==="
+            export PATH=/opt/maven/bin:$PATH
+
+            echo "=== Check Maven version ==="
+            mvn -v
+
+            echo "=== Build project ==="
+            mvn -B -DskipTests verify
                 '''
             }
         }
