@@ -23,26 +23,9 @@ pipeline {
             agent any
             steps {
                 sh '''
-                  MAVEN_VERSION=3.1.0
-
-            # Remove old Maven (optional)
-            sudo yum remove -y maven || true
-
-            # Download specific Maven version
-            curl -L -o apache-maven.tar.gz \
-                https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
-
-            # Extract under /opt
-            sudo tar -xzf apache-maven.tar.gz -C /opt
-
-            # Symlink for convenience
-            sudo ln -sfn /opt/apache-maven-${MAVEN_VERSION} /opt/maven
-
-            # Add to PATH for this pipeline
-            export PATH=/opt/maven/bin:$PATH
-
+            
+            sudo yum  -y maven
             mvn -v   # Check version
-
             mvn verify
                 '''
             }
