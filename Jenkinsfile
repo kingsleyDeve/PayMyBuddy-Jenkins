@@ -24,7 +24,7 @@ pipeline {
             steps {
                 sh '''
             
-            sudo yum  -y maven
+            sudo yum install -y maven
             mvn -v   # Check version
             mvn verify
                 '''
