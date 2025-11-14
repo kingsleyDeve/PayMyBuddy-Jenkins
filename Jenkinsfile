@@ -23,6 +23,14 @@ pipeline {
             agent any
             steps {
                 sh '''
+                
+            # Installer Java 17
+            sudo yum install -y java-17-openjdk java-17-openjdk-devel
+
+            export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+            export PATH=$JAVA_HOME/bin:$PATH
+
+            java -version
             
            MAVEN_VERSION=3.9.6
 
