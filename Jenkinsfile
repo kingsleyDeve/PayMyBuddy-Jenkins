@@ -24,32 +24,11 @@ pipeline {
             steps {
                 sh '''
                 
-            # Installer Java 17
-            sudo yum install -y java-17-openjdk java-17-openjdk-devel
-
-            export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
-            export PATH=$JAVA_HOME/bin:$PATH
-
-            java -version
-            
-           MAVEN_VERSION=3.9.6
-
-            echo "=== Remove old Maven ==="
-            sudo yum remove -y maven || true
-
-            echo "=== Download Maven ${MAVEN_VERSION} ==="
-            curl -L -o apache-maven.tar.gz \
-              https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
-
-            echo "=== Install Maven ==="
-            sudo tar -xzf apache-maven.tar.gz -C /opt
-            sudo ln -sfn /opt/apache-maven-${MAVEN_VERSION} /opt/maven
-
-            export PATH=/opt/maven/bin:$PATH
+            sudo yum install -y maven
 
             mvn -v
 
-            mvn -B -DskipTests verify
+            mvn test
                 '''
             }
         }
