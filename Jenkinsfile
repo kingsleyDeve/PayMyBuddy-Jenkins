@@ -23,7 +23,7 @@ pipeline {
             agent any
             steps {
                 sh '''
-                   sudo yum install -y maven:3.1.0
+                   sudo yum install -y maven 3.1.0
                    mvn verify
                 '''
             }
