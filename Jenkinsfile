@@ -20,11 +20,16 @@ pipeline {
     stages {
 
         stage('Test') {
-            agent any
+            agent {
+                  docker {
+            image 'jenkins-agent'
+            args '-u jenkins:jenkins'
+                }
+            }
             steps {
                 sh '''
                 
-             apt install -y openjdk-17-jre-headless maven
+            sudo apt install -y openjdk-17-jre-headless maven
 
             mvn -v
 
