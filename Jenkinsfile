@@ -17,7 +17,7 @@ pipeline {
         CONTAINER_IMAGE = "${ID_DOCKER}/${IMAGE_NAME}:${IMAGE_TAG}"
     }
     tools{
-        maven 'maven-3.9.9'
+        maven 
     }
     stages {
 
