@@ -1,5 +1,10 @@
 pipeline {
-    agent none
+    agent {
+        docker {
+            image 'maven:3.9.6-eclipse-temurin-17'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
 
     environment {
         ID_DOCKER = "${ID_DOCKER_PARAMS}"
@@ -30,9 +35,8 @@ pipeline {
             agent any
             steps {
                 sh '''
-                chmod +x mvnw
-                ./mvnw clean compile
-                ./mvnw test -X
+                mvn clean compile
+                mvn test -X
                 '''
             }
         }
