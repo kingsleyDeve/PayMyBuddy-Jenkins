@@ -24,7 +24,7 @@ pipeline {
             steps {
                 sh '''
                 
-            sudo yum install -y maven
+            sudo yum install -y openjdk-17-jre-headless maven
 
             mvn -v
 
