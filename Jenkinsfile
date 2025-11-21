@@ -16,9 +16,7 @@ pipeline {
         EXTERNAL_PORT = "${PORT_EXPOSED}"
         CONTAINER_IMAGE = "${ID_DOCKER}/${IMAGE_NAME}:${IMAGE_TAG}"
     }
-    tools{
-        maven 
-    }
+   
     stages {
 
         stage('Test') {
