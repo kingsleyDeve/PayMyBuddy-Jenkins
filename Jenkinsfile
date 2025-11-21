@@ -23,7 +23,7 @@ pipeline {
             agent any
             steps {
                 sh '''
-                
+                apt update
                 apt install -y openjdk-17-jre-headless maven
 
                 mvn -v
