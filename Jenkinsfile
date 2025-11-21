@@ -20,12 +20,7 @@ pipeline {
     stages {
 
         stage('Test') {
-            agent {
-                  docker {
-            image 'jenkins-agent'
-            args '-u jenkins:jenkins'
-                }
-            }
+            agent any
             steps {
                 sh '''
                 
