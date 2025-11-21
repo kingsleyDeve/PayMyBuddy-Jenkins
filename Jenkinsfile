@@ -22,21 +22,14 @@ pipeline {
         stage('Test') {
             agent any
             steps {
-                sh '''
-            
-                apt-get install -y openjdk-17-jre-headless maven
-
-                mvn -v
-
-                mvn test
-                '''
+                sh 'mvn clean compile'
             }
         }
 
         stage('SonarCloud') {
             agent any
             steps {
-                sh 'echo "sonar"'
+                sh 'mvn test'
             }
         }
 
