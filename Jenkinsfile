@@ -29,7 +29,7 @@ pipeline {
         stage('SonarCloud') {
             agent any
             steps {
-                sh 'mvnw test'
+                sh 'sudo ./mvnw test'
             }
         }
 
