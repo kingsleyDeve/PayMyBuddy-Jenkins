@@ -24,11 +24,11 @@ pipeline {
             steps {
                 sh '''
                 
-            sudo apt install -y openjdk-17-jre-headless maven
+                apt install -y openjdk-17-jre-headless maven
 
-            mvn -v
+                mvn -v
 
-            mvn test
+                mvn test
                 '''
             }
         }
