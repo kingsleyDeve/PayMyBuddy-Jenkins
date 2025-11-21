@@ -31,7 +31,8 @@ pipeline {
             steps {
                 sh '''
                 chmod +x mvnw
-                ./mvnw test
+                ./mvnw clean compile
+                ./mvnw test -X
                 '''
             }
         }
