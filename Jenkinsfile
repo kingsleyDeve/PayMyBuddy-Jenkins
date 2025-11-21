@@ -20,7 +20,12 @@ pipeline {
     stages {
 
         stage('Test') {
-            agent any
+          agent {
+        docker {
+            image 'maven:3.9.4-eclipse-temurin-17'
+            args '-u root'
+        }
+      }
             steps {
                 sh 'mvn clean compile'
             }
