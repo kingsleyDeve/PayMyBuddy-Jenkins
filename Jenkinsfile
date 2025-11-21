@@ -22,7 +22,7 @@ pipeline {
         stage('Test') {
           agent any
           steps {
-                sh 'docker ps'
+                sh 'ls'
             }
         }
 
