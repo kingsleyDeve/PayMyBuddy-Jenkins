@@ -34,10 +34,7 @@ pipeline {
         stage('SonarCloud') {
             agent any
             steps {
-                sh '''
-                mvn clean compile
-                mvn test -X
-                '''
+                sh 'mvn test -X'
             }
         }
 
