@@ -26,13 +26,19 @@ pipeline {
         stage('Build') {
             steps {
                 // on utilise mvnw pour s'assurer de la version embarquée
-                sh './mvnw -B clean package -DskipTests'
+                sh '''
+                chmod +x mvnw
+                ./mvnw -B clean package -DskipTests
+                '''
             }
         }
 
         stage('Unit Tests') {
             steps {
-                sh './mvnw -B test'
+                sh '''
+                chmod +x mvnw
+                ./mvnw -B test
+                '''
             }
             post {
                 always {
