@@ -16,10 +16,18 @@ pipeline {
         EXTERNAL_PORT = "${PORT_EXPOSED}"
         CONTAINER_IMAGE = "${ID_DOCKER}/${IMAGE_NAME}:${IMAGE_TAG}"
     }
+    tools {
+    jdk 'JDK11'
+    }
    
     stages {
 
 
+        stage('Java Version') {
+    steps {
+        sh "java -version"
+        }
+    }
 
 
         
