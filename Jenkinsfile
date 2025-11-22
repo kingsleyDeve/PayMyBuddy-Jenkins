@@ -44,6 +44,7 @@ pipeline {
     steps {
         withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
             sh """
+                chmod +x mvnw
                 ./mvnw -B verify sonar:sonar \
                   -Dsonar.projectKey=kingsleyDeve_PayMyBuddy \
                   -Dsonar.organization=kingsleydeve \
