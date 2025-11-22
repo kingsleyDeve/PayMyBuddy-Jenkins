@@ -42,7 +42,7 @@ pipeline {
         stage('SonarCloud') {
             agent any
     steps {
-        withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+        withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
             sh """
                 ./mvnw -B verify sonar:sonar \
                   -Dsonar.projectKey=kingsleyDeve_PayMyBuddy \
