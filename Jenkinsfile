@@ -22,6 +22,7 @@ pipeline {
 
 
         stage('Java Version') {
+            agent any
     steps {
         sh "java -version"
         }
@@ -30,6 +31,7 @@ pipeline {
 
         
         stage('Build') {
+            agent any
             steps {
                 // on utilise mvnw pour s'assurer de la version embarquée
                 sh '''
@@ -40,6 +42,7 @@ pipeline {
         }
 
         stage('Unit Tests') {
+            agent any
             steps {
                 sh '''
                 chmod +x mvnw
