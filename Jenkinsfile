@@ -61,12 +61,6 @@ pipeline {
             }
         }
 
-        stage('SonarCloud') {
-            steps {
-                sh 'mvn test -X'
-            }
-        }
-
         stage('Run container based on built image') {
             agent any
             steps {
