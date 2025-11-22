@@ -40,6 +40,7 @@ pipeline {
         }   
 
         stage('SonarCloud') {
+            agent any
     steps {
         withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
             sh """
