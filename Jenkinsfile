@@ -66,6 +66,7 @@ pipeline {
             agent any
             steps {
                 sh '''
+                    curl -fsSL https://get.docker.com -o get-docker.sh
                     apt-get install -y docker.io
                     echo "Clean Environment"
                     docker rm -f $IMAGE_NAME || echo "container does not exist"
