@@ -53,7 +53,7 @@ pipeline {
             """
         }
     }
-}   *\ 
+}   */ 
             
         stage('Test') {
           agent any
