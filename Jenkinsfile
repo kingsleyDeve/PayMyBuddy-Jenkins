@@ -41,7 +41,7 @@ pipeline {
 
         stage('SonarCloud Analysis') {
             steps { 
-                 withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                 withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
                 sh """
                     chmod +x mvnw
                     ./mvnw sonar:sonar \
