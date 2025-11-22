@@ -49,6 +49,7 @@ pipeline {
                     -Dsonar.login=$SONAR_TOKEN
                 """
             }
+        }  
             
         stage('Test') {
           agent any
