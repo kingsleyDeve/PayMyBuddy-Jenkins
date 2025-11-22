@@ -6,7 +6,7 @@ pipeline {
         IMAGE_NAME = "paymybuddy"
         IMAGE_TAG = "latest"
         APP_NAME = "kingsley"
-
+        SONAR_TOKEN = credentials('sonar-token')
         STG_API_ENDPOINT = "ip10-0-57-8-d4bogugltosglhl3v92g-1993.direct.docker.labs.eazytraining.fr"
         STG_APP_ENDPOINT = "ip10-0-57-8-d4bogugltosglhl3v92g-80.direct.docker.labs.eazytraining.fr"
         PROD_API_ENDPOINT = "ip10-0-57-9-d4bogugltosglhl3v92g-1993.direct.docker.labs.eazytraining.fr"
@@ -37,8 +37,19 @@ pipeline {
                 ./mvnw -B test
                 '''
             }
-            
 
+        stage('SonarCloud Analysis') {
+            steps {
+                sh """
+                    chmod +x mvnw
+                    ./mvnw sonar:sonar \
+                    -Dsonar.projectKey=kingsleyDeve_PayMyBuddy-Jenkins \
+                    -Dsonar.organization=kingsleydeve \
+                    -Dsonar.host.url=https://sonarcloud.io \ 
+                    -Dsonar.login=$SONAR_TOKEN
+                """
+            }
+            
         stage('Test') {
           agent any
           steps {
