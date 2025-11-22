@@ -40,7 +40,8 @@ pipeline {
         }   
 
         stage('SonarCloud Analysis') {
-            steps {
+            steps { 
+                 withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                 sh """
                     chmod +x mvnw
                     ./mvnw sonar:sonar \
@@ -50,7 +51,8 @@ pipeline {
                     -Dsonar.login=${SONAR_TOKEN}
                 """
             }
-        }  
+        } 
+        }     
             
         stage('Test') {
           agent any
