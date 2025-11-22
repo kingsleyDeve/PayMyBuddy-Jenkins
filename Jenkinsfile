@@ -68,7 +68,7 @@ pipeline {
                 sh '''
                     curl -fsSL https://get.docker.com -o get-docker.sh
                     sh get-docker.sh
-                    -c docker ps
+                    sh -c docker ps
                     apt-get install -y docker.io
                     echo "Clean Environment"
                     docker rm -f $IMAGE_NAME || echo "container does not exist"
