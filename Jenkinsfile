@@ -39,20 +39,19 @@ pipeline {
             }
         }   
 
-        stage('SonarCloud Analysis') {
-            steps { 
-                 withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
-                sh """
-                    chmod +x mvnw
-                    ./mvnw sonar:sonar \
-                    -Dsonar.projectKey=kingsleyDeve_PayMyBuddy-Jenkins \
-                    -Dsonar.organization=kingsleydeve \
-                    -Dsonar.host.url=https://sonarcloud.io \
-                    -Dsonar.login=${SONAR_TOKEN}
-                """
-            }
-        } 
-        }     
+        stage('SonarCloud') {
+    steps {
+        withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+            sh """
+                ./mvnw -B verify sonar:sonar \
+                  -Dsonar.projectKey=kingsleyDeve_PayMyBuddy \
+                  -Dsonar.organization=kingsleydeve \
+                  -Dsonar.host.url=https://sonarcloud.io \
+                  -Dsonar.login=$SONAR_TOKEN
+            """
+        }
+    }
+}    
             
         stage('Test') {
           agent any
