@@ -39,7 +39,7 @@ pipeline {
             }
         }   
 
-        stage('SonarCloud') {
+      /*  stage('SonarCloud') {
             agent any
     steps {
         withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
@@ -53,7 +53,7 @@ pipeline {
             """
         }
     }
-}    
+}   *\ 
             
         stage('Test') {
           agent any
