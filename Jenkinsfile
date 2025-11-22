@@ -29,18 +29,6 @@ pipeline {
     }
 
 
-        
-        stage('Build') {
-            agent any
-            steps {
-                // on utilise mvnw pour s'assurer de la version embarquée
-                sh '''
-                chmod +x mvnw
-                ./mvnw -B clean package -DskipTests
-                '''
-            }
-        }
-
         stage('Unit Tests') {
             agent any
             steps {
@@ -49,13 +37,7 @@ pipeline {
                 ./mvnw -B test
                 '''
             }
-            post {
-                always {
-                    // publication des résultats JUnit
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
-        }
+            
 
         stage('Test') {
           agent any
