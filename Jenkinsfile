@@ -37,6 +37,7 @@ pipeline {
                 ./mvnw -B test
                 '''
             }
+        }   
 
         stage('SonarCloud Analysis') {
             steps {
