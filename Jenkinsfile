@@ -47,7 +47,7 @@ pipeline {
                     -Dsonar.projectKey=kingsleyDeve_PayMyBuddy-Jenkins \
                     -Dsonar.organization=kingsleydeve \
                     -Dsonar.host.url=https://sonarcloud.io \
-                    -Dsonar.login=$SONAR_TOKEN
+                    -Dsonar.login=${SONAR_TOKEN}
                 """
             }
         }  
