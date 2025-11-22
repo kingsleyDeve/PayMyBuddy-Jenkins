@@ -66,7 +66,7 @@ pipeline {
             agent any
             steps {
                 sh '''
-                    yum install -y docker.io
+                    apt-get install -y docker.io
                     echo "Clean Environment"
                     docker rm -f $IMAGE_NAME || echo "container does not exist"
                     docker run --name $IMAGE_NAME -d -p ${PORT_EXPOSED}:${INTERNAL_PORT} \
