@@ -1,0 +1,46 @@
+services:
+
+  paymybuddy-db:
+    image: mysql:9.4
+    container_name: paymybuddy-db
+    environment:
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=absd
+    volumes:
+      - paymybuddy-data:/var/lib/mysql
+      - ./src/main/resources/database/create.sql:/docker-entrypoint-initdb.d/create.sql:ro
+    networks:
+      - paymybuddy-network
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    
+
+  paymybuddy-backend:
+    image: test
+    container_name: paymybuddy-backend
+    depends_on:
+      paymybuddy-db:
+        condition: service_healthy
+        
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://172.17.0.1:3306/db_paymybuddy
+      - SPRING_DATASOURCE_USERNAME=test
+      - SPRING_DATASOURCE_PASSWORD=test
+    networks:
+      - paymybuddy-network
+    ports:
+      - "8080:8080"
+
+volumes:
+  paymybuddy-data:
+
+
+networks:
+  paymybuddy-network:
