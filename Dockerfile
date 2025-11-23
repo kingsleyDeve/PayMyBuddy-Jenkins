@@ -1,6 +1,6 @@
 FROM amazoncorretto:17-alpine
 
-ARG JAR_FILE=src/main/java/com/paymybuddy/paymybuddy/PayMyBuddyApplication.java
+ARG JAR_FILE=target/paymybuddy.jar
 
 WORKDIR /app
 
