@@ -34,6 +34,7 @@ pipeline {
             steps {
                 sh '''
                 chmod +x mvnw
+                ./mvnw clean install
                 ./mvnw -B test
                 '''
             }
@@ -68,10 +69,9 @@ pipeline {
                 sh '''
                     curl -fsSL https://get.docker.com -o get-docker.sh
                     sh get-docker.sh
-                    sh -c docker ps
-                    apt-get install -y docker.io
                     echo "Clean Environment"
                     docker rm -f $IMAGE_NAME || echo "container does not exist"
+                    docker build -t $IMAGE_NAME .
                     docker run --name $IMAGE_NAME -d -p ${PORT_EXPOSED}:${INTERNAL_PORT} \
                     -e PORT=${INTERNAL_PORT} ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG
                     sleep 5
@@ -100,7 +100,7 @@ pipeline {
             agent any
             steps {
                 sh '''
-                    docker save ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG > /tmp/alpinehelloworld.tar
+                    docker save ${ID_DOCKER}/$IMAGE_NAME:$IMAGE_TAG > /tmp/paymybuddy.tar
                 '''
             }
         }
