@@ -41,10 +41,9 @@ pipeline {
             agent any
             steps {
                 sh """
-                    apt-get update -o Acquire::Check-Valid-Until=false -o Acquire::Check-Date=false
-                    apt-get install -y docker.io
-                    docker --version
-                    echo 'Clean previous container'
+                    curl -fsSL https://get.docker.com -o get-docker.sh
+                    chmod +x get-docker.sh
+                    ./get-docker.sh 
                     docker rm -f ${IMAGE_NAME} || true
 
                     echo 'Building Docker image'
