@@ -48,7 +48,7 @@ pipeline {
                     docker build -t ${CONTAINER_IMAGE} .
 
                     echo 'Running container'
-                    docker run --name ${IMAGE_NAME} -d \
+                    docker run --name ${IMAGE_NAME} \
                         -p ${EXTERNAL_PORT}:${INTERNAL_PORT} \
                         -e PORT=${INTERNAL_PORT} \
                         ${CONTAINER_IMAGE}
