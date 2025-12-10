@@ -23,12 +23,14 @@ pipeline {
     stages {
 
         stage('Java Version') {
+            agent any
             steps {
                 sh "java -version"
             }
         }
 
         stage('Unit Tests') {
+            agent any
             steps {
                 sh '''
                     chmod +x mvnw
@@ -39,12 +41,14 @@ pipeline {
         }
 
         stage('Test') {
+            agent any
             steps {
                 sh 'ls -l'
             }
         }
 
         stage('Build & Run Docker Image') {
+            agent any
             steps {
                 sh """
                     echo 'Clean previous container'
@@ -66,6 +70,7 @@ pipeline {
         }
 
         stage('Test image') {
+            agent any
             steps {
                 sh """
                     echo 'Testing application on http://172.17.0.1:${EXTERNAL_PORT}'
@@ -75,6 +80,7 @@ pipeline {
         }
 
         stage('Clean Container') {
+            agent any
             steps {
                 sh '''
                     docker stop paymybuddy || true
@@ -84,6 +90,7 @@ pipeline {
         }
 
         stage('Save Artefact') {
+            agent any
             steps {
                 sh '''
                     docker save ${CONTAINER_IMAGE} > /tmp/paymybuddy.tar
@@ -92,6 +99,7 @@ pipeline {
         }
 
         stage('Login and Push Image on Docker Hub') {
+            agent any
             environment {
                 DOCKERHUB_CREDS = credentials('dockerhub-credentials')
             }
@@ -104,6 +112,7 @@ pipeline {
         }
 
         stage('STAGING - Deploy app') {
+            agent any
             steps {
                 sh """
                     echo '{\"your_name\":\"${APP_NAME}\",\"container_image\":\"${CONTAINER_IMAGE}\",\"external_port\":\"${EXTERNAL_PORT}\",\"internal_port\":\"${INTERNAL_PORT}\"}' > data.json
@@ -113,6 +122,7 @@ pipeline {
         }
 
         stage('PRODUCTION - Deploy app') {
+            agent any
             when { branch 'main' }
             steps {
                 sh """
