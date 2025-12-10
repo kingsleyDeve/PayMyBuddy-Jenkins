@@ -41,8 +41,9 @@ pipeline {
             agent any
             steps {
                 sh """
-                    curl -fsSL https://get.docker.com -o get-docker.sh
-                    sh get-docker.sh
+                    apt-get update -o Acquire::Check-Valid-Until=false -o Acquire::Check-Date=false
+                    apt-get install -y docker.io
+                    docker --version
                     echo 'Clean previous container'
                     docker rm -f ${IMAGE_NAME} || true
 
