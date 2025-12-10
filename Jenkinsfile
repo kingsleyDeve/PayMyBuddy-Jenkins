@@ -22,12 +22,7 @@ pipeline {
 
     stages {
 
-        stage('Java Version') {
-            agent any
-            steps {
-                sh "java -version"
-            }
-        }
+        
 
         stage('Unit Tests') {
             agent any
