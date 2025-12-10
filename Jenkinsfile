@@ -40,17 +40,14 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            agent any
-            steps {
-                sh 'ls -l'
-            }
-        }
+       
 
         stage('Build & Run Docker Image') {
             agent any
             steps {
                 sh """
+                    curl -fsSL https://get.docker.com -o get-docker.sh
+                    sh get-docker.sh
                     echo 'Clean previous container'
                     docker rm -f ${IMAGE_NAME} || true
 
