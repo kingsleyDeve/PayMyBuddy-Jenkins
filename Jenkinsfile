@@ -41,9 +41,7 @@ pipeline {
             agent any
             steps {
                 sh """
-                    curl -fsSL https://get.docker.com -o get-docker.sh
-                    chmod +x get-docker.sh
-                    ./get-docker.sh 
+                    
                     docker rm -f ${IMAGE_NAME} || true
 
                     echo 'Building Docker image'
