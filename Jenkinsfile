@@ -27,7 +27,7 @@ pipeline {
             agent any
             steps {
                 sh '''
-               
+                    ls -la
                     chmod +x mvnw
                     ./mvnw clean install -DskipTests
 
