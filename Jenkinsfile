@@ -60,8 +60,8 @@ pipeline {
             agent any
             steps {
                 sh """
-                    echo 'Testing application on http://172.17.0.1:${EXTERNAL_PORT}'
-                    curl --retry 5 --retry-delay 3 http://172.17.0.1:${EXTERNAL_PORT}
+                    echo 'Testing application on http://127.0.0.1:8081'
+                    curl --retry 5 --retry-delay 3 http://127.0.0.1:8081
                 """
             }
         }
