@@ -50,7 +50,7 @@ pipeline {
                    
                     docker build -t ${CONTAINER_IMAGE} .
                     
-                    cp src/main/resources/database/create.sql create.sql
+                    cp src/main/resources/database/create.sql ./create.sql
                     
                     docker run  --name mysql \
                      --network paymybuddy-net \
