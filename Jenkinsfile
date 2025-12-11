@@ -28,7 +28,8 @@ pipeline {
             steps {
                 sh '''
                     chmod +x mvnw
-                    ./mvnw clean install
+                    ./mvnw clean install -DskipTests
+
                     ./mvnw -B test
                 '''
             }
@@ -67,6 +68,7 @@ pipeline {
                     ${CONTAINER_IMAGE}
 
                     
+
 
                     echo 'Waiting for application startup'
                     sleep 5
