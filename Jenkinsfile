@@ -50,9 +50,6 @@ pipeline {
 
                     echo 'Running container'
                     docker run --name ${IMAGE_NAME} \
-                    -e SPRING_DATASOURCE_URL="jdbc:mysql://mysql-paymybuddy:3306/db_paymybuddy" \
-                    -e SPRING_DATASOURCE_USERNAME="root" \
-                    -e SPRING_DATASOURCE_PASSWORD="password" \
                     -p 8081:${port} \
                     ${CONTAINER_IMAGE}
 
