@@ -63,7 +63,7 @@ pipeline {
             -e MYSQL_PASSWORD=pass \
             -e MYSQL_USER=tes \
             -e MYSQL_DATABASE=db_paymybuddy \
-            -v /var/jenkins_home/workspace/test/create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
+            -v /var/jenkins_home/workspace/test/create.sql:/docker-entrypoint-initdb.d/create.sql \
             -p 3306:3306 \
              mysql:8.0
 
