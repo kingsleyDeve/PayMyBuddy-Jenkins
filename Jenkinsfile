@@ -42,7 +42,7 @@ pipeline {
             agent any
             steps {
                 sh """
-                    cp src/main/resources/database/create.sql create.sql
+                    
                     docker stop ${IMAGE_NAME} && docker rm -f ${IMAGE_NAME}
                     docker stop mysql && docker rm -f mysql
                     docker network create paymybuddy-net || true
@@ -51,7 +51,7 @@ pipeline {
                     docker build -t ${CONTAINER_IMAGE} .
                     pwd 
                     ls
-
+                    cp src/main/resources/database/create.sql create.sql
                     
                     docker run  --name mysql \
                      --network paymybuddy-net \
