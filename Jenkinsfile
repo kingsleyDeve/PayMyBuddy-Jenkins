@@ -52,7 +52,7 @@ pipeline {
                     docker run  --name mysql \
                      --network paymybuddy-net \
                 -e MYSQL_ROOT_PASSWORD=password \
-                -v /var/jenkins_home/workspace/test/src/main/resources/database/create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
+                -v ./var/jenkins_home/workspace/test/src/main/resources/database/create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
                 -p 3306:3306 \
                 mysql:8.0
              
