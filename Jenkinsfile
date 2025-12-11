@@ -48,16 +48,14 @@ pipeline {
 
                     docker rm -f ${IMAGE_NAME} || true
 
-                    docker rm -f mysql-paymybuddy
-                    
-                    docker run --name mysql-paymybuddy -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password mysql
+                    docker ps
                         
                     echo 'Running container'
                     docker run --name ${IMAGE_NAME} \
                     -p 8081:8080 \
                     ${CONTAINER_IMAGE}
 
-                    cat /etc/mysql/mysql.conf.d/mysqld.cnf | grep bind-address 
+                    
 
                     echo 'Waiting for application startup'
                     sleep 5
