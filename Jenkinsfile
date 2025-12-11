@@ -52,11 +52,10 @@ pipeline {
                      --network paymybuddy-net \
                 -e MYSQL_ROOT_PASSWORD=password \
                 -e MYSQL_DATABASE=db_paymybuddy \
+                -v ./src/main/resources/database/create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
                 -p 3306:3306 \
                 mysql:8.0
-                
-                cd src/main/resources/database
-              docker exec -i mysql mysql -uroot -ppassword db_paymybuddy < create.sql
+             
                     sleep 10
                     
 
