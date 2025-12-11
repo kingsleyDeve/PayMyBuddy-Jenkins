@@ -43,11 +43,13 @@ pipeline {
                     
                     docker rm -f ${IMAGE_NAME} || true
 
-                    
+                    docker rm -f mysql-paymybuddy
                     
                     echo 'Building Docker image'
                     docker build -t ${CONTAINER_IMAGE} .
 
+                    docker run --name mysql-paymybuddy -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password mysql
+                        
                     echo 'Running container'
                     docker run --name ${IMAGE_NAME} \
                     -p 8081:8080 \
