@@ -50,7 +50,7 @@ pipeline {
 
                     echo 'Running container'
                     docker run --name ${IMAGE_NAME} \
-                    -p 8081:${port} \
+                    -p 8080:8080 \
                     ${CONTAINER_IMAGE}
 
                     cat /etc/mysql/mysql.conf.d/mysqld.cnf | grep bind-address 
@@ -65,8 +65,8 @@ pipeline {
             agent any
             steps {
                 sh """
-                    echo 'Testing application on http://127.0.0.1:8081'
-                    curl --retry 5 --retry-delay 3 http://127.0.0.1:8081
+                    echo 'Testing application on http://127.0.0.1:8080'
+                    curl --retry 7 --retry-delay 3 http://127.0.0.1:8080
                 """
             }
         }
