@@ -54,10 +54,9 @@ pipeline {
             docker build -t ${CONTAINER_IMAGE} .
 
             # Copie du SQL dans le workspace
-            cp src/main/resources/database/create.sql create.sql
             ls
 
-            docker run --name mysql --network paymybuddy-net -e MYSQL_ROOT_PASSWORD=pass -e MYSQL_PASSWORD=pass -e MYSQL_USER=tes -e MYSQL_DATABASE=db_paymybuddy -v /var/jenkins_home/workspace/test/create.sql:/docker-entrypoint-initdb.d/create.sql -p 3306:3306 mysql:8.0
+            docker run --name mysql --network paymybuddy-net -e MYSQL_ROOT_PASSWORD=pass -e MYSQL_PASSWORD=pass -e MYSQL_USER=tes -e MYSQL_DATABASE=db_paymybuddy -v /var/jenkins_home/workspace/test/src/main/resources/database/create.sql:/docker-entrypoint-initdb.d/create.sql -p 3306:3306 mysql:8.0
 
 
             docker exec mysql ls -l /docker-entrypoint-initdb.d
