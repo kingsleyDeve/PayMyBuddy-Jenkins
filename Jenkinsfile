@@ -55,6 +55,8 @@ pipeline {
 
             # Copie du SQL dans le workspace
             cp src/main/resources/database/create.sql ./create.sql
+            docker exec mysql ls -l /docker-entrypoint-initdb.d
+            docker exec mysql cat /docker-entrypoint-initdb.d/create.sql
 
             echo "Starting MySQL container"
             docker run --name mysql \
