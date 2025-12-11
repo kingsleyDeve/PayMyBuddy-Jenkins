@@ -15,7 +15,7 @@ pipeline {
         PROD_APP_ENDPOINT = "ip10-0-57-9-d4bogugltosglhl3v92g-80.direct.docker.labs.eazytraining.fr"
 
         port = 80
-
+        WK = pwd()
         CONTAINER_IMAGE   = "${IMAGE_NAME}:${IMAGE_TAG}"
     }
 
@@ -65,7 +65,7 @@ pipeline {
             -e MYSQL_PASSWORD=pass \
             -e MYSQL_USER=tes \
             -e MYSQL_DATABASE=db_paymybuddy \
-            -v /create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
+            -v $WK/create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
             -p 3306:3306 \
              mysql:8.0
 
