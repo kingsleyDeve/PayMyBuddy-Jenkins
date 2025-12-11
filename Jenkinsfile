@@ -47,14 +47,13 @@ pipeline {
                     docker build -t ${CONTAINER_IMAGE} .
 
                     docker run -d --name mysql \
+                     --network paymybuddy-net \
                 -e MYSQL_ROOT_PASSWORD=password \
                 -e MYSQL_DATABASE=db_paymybuddy \
                 -p 3306:3306 \
                 mysql:8.0
 
-                docker network connect paymybuddy-net mysql
-
-
+                
                     sleep 10
                     docker rm -f ${IMAGE_NAME} || true
 
