@@ -43,14 +43,14 @@ pipeline {
                     
                     docker rm -f ${IMAGE_NAME} || true
 
-                    docker run --name mysql-paymybuddy -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password -d mysql
+                    
                     
                     echo 'Building Docker image'
                     docker build -t ${CONTAINER_IMAGE} .
 
                     echo 'Running container'
                     docker run --name ${IMAGE_NAME} \
-                    -e SPRING_DATASOURCE_URL="jdbc:mysql://172.17.0.1:3306/db_paymybuddy" \
+                    -e SPRING_DATASOURCE_URL="jdbc:mysql://mysql-paymybuddy:3306/db_paymybuddy" \
                     -e SPRING_DATASOURCE_USERNAME="root" \
                     -e SPRING_DATASOURCE_PASSWORD="password" \
                     -p 8081:${port} \
