@@ -50,6 +50,8 @@ pipeline {
                     docker run --name ${IMAGE_NAME} \
                         -p  8081:${port} ${CONTAINER_IMAGE}
 
+                    cat /etc/mysql/mysql.conf.d/mysqld.cnf | grep bind-address 
+
                     echo 'Waiting for application startup'
                     sleep 5
                 """
