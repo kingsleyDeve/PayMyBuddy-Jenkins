@@ -27,6 +27,12 @@ pipeline {
             agent any
             steps {
                 sh '''
+                ls
+src/
+  main/
+    resources/
+      database/
+        create.sql
                     chmod +x mvnw
                     ./mvnw clean install -DskipTests
 
@@ -49,6 +55,8 @@ pipeline {
                     docker build -t ${CONTAINER_IMAGE} .
                     pwd 
                     ls
+
+                    
                     docker run  --name mysql \
                      --network paymybuddy-net \
                 -e MYSQL_ROOT_PASSWORD=pass \
