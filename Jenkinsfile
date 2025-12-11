@@ -57,7 +57,6 @@ pipeline {
             cp src/main/resources/database/create.sql create.sql
             ls
 
-            echo "WORKDIR = $WK"
             docker run --name mysql \
             --network paymybuddy-net \
             -e MYSQL_ROOT_PASSWORD=pass \
