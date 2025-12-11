@@ -39,11 +39,10 @@ pipeline {
        
 
         stage('Build & Run Docker Image') {
-            agent any
-            steps {
-                sh """
-                    
-                      # Nettoyage préalable
+    agent any
+    steps {
+        sh """
+            # Nettoyage préalable
             docker stop ${IMAGE_NAME} || true
             docker rm -f ${IMAGE_NAME} || true
             docker stop mysql || true
@@ -54,38 +53,38 @@ pipeline {
             echo "Building app image"
             docker build -t ${CONTAINER_IMAGE} .
 
-                    
-                    cp src/main/resources/database/create.sql ./create.sql
-                    
-                    docker run  --name mysql \
-                     --network paymybuddy-net \
+            # Copie du SQL dans le workspace
+            cp src/main/resources/database/create.sql ./create.sql
+
+            echo "Starting MySQL container"
+            docker run --name mysql \
+                --network paymybuddy-net \
                 -e MYSQL_ROOT_PASSWORD=pass \
                 -e MYSQL_PASSWORD=pass \
                 -e MYSQL_USER=tes \
                 -e MYSQL_DATABASE=db_paymybuddy \
-                -v $(pwd)/create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
+                -v \$(pwd)/create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
                 -p 3306:3306 \
+                -d \
                 mysql:8.0
-             
-                    sleep 10
-                    
 
-                    docker ps 
-    
-                    echo 'Running container'
-                    docker run --name ${IMAGE_NAME} \
-                    --network paymybuddy-net \
-                    -p 8081:8080 \
-                    ${CONTAINER_IMAGE}
+            sleep 12
 
-                    
+            docker ps
 
+            echo "Running backend container"
+            docker run --name ${IMAGE_NAME} \
+                --network paymybuddy-net \
+                -p 8081:8080 \
+                -d \
+                ${CONTAINER_IMAGE}
 
-                    echo 'Waiting for application startup'
-                    sleep 5
-                """
-            }
-        }
+            echo "Waiting for application startup"
+            sleep 8
+        """
+    }
+}
+
 
         stage('Test image') {
             agent any
