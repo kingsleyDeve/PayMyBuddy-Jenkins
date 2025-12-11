@@ -41,13 +41,15 @@ pipeline {
             steps {
                 sh """
                     
-                    docker rm -f ${IMAGE_NAME} || true
-
-                    docker rm -f mysql-paymybuddy
+                    
                     
                     echo 'Building Docker image'
                     docker build -t ${CONTAINER_IMAGE} .
 
+                    docker rm -f ${IMAGE_NAME} || true
+
+                    docker rm -f mysql-paymybuddy
+                    
                     docker run --name mysql-paymybuddy -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password mysql
                         
                     echo 'Running container'
