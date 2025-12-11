@@ -55,8 +55,7 @@ pipeline {
                 -p 3306:3306 \
                 mysql:8.0
 
-                docker exec -it mysql bash
-                mysql  -u root -p < create.sql
+              docker exec -i mysql mysql -uroot -ppassword db_paymybuddy < create.sql
                     sleep 10
                     
 
