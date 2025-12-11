@@ -43,10 +43,16 @@ pipeline {
             steps {
                 sh """
                     
-                    docker stop ${IMAGE_NAME} && docker rm -f ${IMAGE_NAME}
-                    docker stop mysql && docker rm -f mysql
-                    docker network create paymybuddy-net
-                    docker build -t ${CONTAINER_IMAGE} .
+                      # Nettoyage préalable
+            docker stop ${IMAGE_NAME} || true
+            docker rm -f ${IMAGE_NAME} || true
+            docker stop mysql || true
+            docker rm -f mysql || true
+
+            docker network create paymybuddy-net || true
+
+            echo "Building app image"
+            docker build -t ${CONTAINER_IMAGE} .
 
                     
                     cp src/main/resources/database/create.sql ./create.sql
