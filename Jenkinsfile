@@ -28,7 +28,7 @@ pipeline {
             steps {
                 sh '''
                     chmod +x mvnw
-                    ./mvnw clean install
+                    ./mvnw clean package -DskipTests
                     ./mvnw -B test
                 '''
             }
