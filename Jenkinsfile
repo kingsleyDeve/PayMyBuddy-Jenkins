@@ -54,8 +54,8 @@ pipeline {
             docker build -t ${CONTAINER_IMAGE} .
 
             # Copie du SQL dans le workspace
-            cp src/main/resources/database/create.sql ./create.sql
-            
+            cp src/main/resources/database/create.sql create.sql
+            ls
 
             echo "Starting MySQL container"
             docker run --name mysql \
