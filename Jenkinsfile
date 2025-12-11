@@ -27,7 +27,7 @@ pipeline {
             agent any
             steps {
                 sh '''
-                ls src/main/resources/database
+               
                     chmod +x mvnw
                     ./mvnw clean install -DskipTests
 
@@ -45,7 +45,7 @@ pipeline {
                     
                     docker stop ${IMAGE_NAME} && docker rm -f ${IMAGE_NAME}
                     docker stop mysql && docker rm -f mysql
-                    docker network create paymybuddy-net || true
+                    docker network create paymybuddy-net
                     docker build -t ${CONTAINER_IMAGE} .
 
                     
