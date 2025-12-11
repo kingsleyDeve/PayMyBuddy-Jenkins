@@ -27,7 +27,7 @@ pipeline {
             agent any
             steps {
                 sh '''
-                ls src/main/resources/database/create.sql
+                ls src/main/resources/database
                     chmod +x mvnw
                     ./mvnw clean install -DskipTests
 
