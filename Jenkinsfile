@@ -47,11 +47,12 @@ pipeline {
                     
                     echo 'Building Docker image'
                     docker build -t ${CONTAINER_IMAGE} .
-
+                    pwd 
+                    ls
                     docker run  --name mysql \
                      --network paymybuddy-net \
                 -e MYSQL_ROOT_PASSWORD=password \
-                -v ./src/main/resources/database/create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
+                -v ${WORKSPACE}/src/main/resources/database/create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
                 -p 3306:3306 \
                 mysql:8.0
              
