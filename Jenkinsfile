@@ -46,9 +46,8 @@ pipeline {
                     docker stop ${IMAGE_NAME} && docker rm -f ${IMAGE_NAME}
                     docker stop mysql && docker rm -f mysql
                     docker network create paymybuddy-net || true
-                    
-                   
                     docker build -t ${CONTAINER_IMAGE} .
+
                     
                     cp src/main/resources/database/create.sql ./create.sql
                     
