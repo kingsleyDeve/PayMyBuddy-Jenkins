@@ -41,7 +41,8 @@ pipeline {
             steps {
                 sh """
                     
-                    
+                    docker network create paymybuddy-net || true
+                    docker network connect paymybuddy-net mysql
                     
                     echo 'Building Docker image'
                     docker build -t ${CONTAINER_IMAGE} .
@@ -57,8 +58,7 @@ pipeline {
                     docker rm -f ${IMAGE_NAME} || true
 
                     docker ps
-                    docker network create paymybuddy-net || true
-                    docker network connect paymybuddy-net mysql
+                    
     
                     echo 'Running container'
                     docker run --name ${IMAGE_NAME} \
