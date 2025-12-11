@@ -28,7 +28,7 @@ pipeline {
             steps {
                 sh '''
                     chmod +x mvnw
-                    ./mvnw clean package -DskipTests
+                    ./mvnw clean install
                     ./mvnw -B test
                 '''
             }
@@ -43,6 +43,8 @@ pipeline {
                     
                     docker rm -f ${IMAGE_NAME} || true
 
+                    docker run --name mysql-paymybuddy -p 3306:3306 -e MYSQL_ROOT_PASSWORD=password -d mysql
+                    
                     echo 'Building Docker image'
                     docker build -t ${CONTAINER_IMAGE} .
 
