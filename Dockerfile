@@ -10,6 +10,6 @@ ENV SPRING_DATASOURCE_USERNAME=tes
 
 ENV SPRING_DATASOURCE_PASSWORD=pass
 
-ENV SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/db_paymybuddy
+ENV SPRING_DATASOURCE_URL=jdbc:mysql://172.17.0.1:3306/db_paymybuddy
 
 CMD ["java", "-jar" , "paymybuddy.jar"]
