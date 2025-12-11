@@ -15,7 +15,7 @@ pipeline {
         PROD_APP_ENDPOINT = "ip10-0-57-9-d4bogugltosglhl3v92g-80.direct.docker.labs.eazytraining.fr"
 
         port = 80
-        WK = $(pwd)
+        WK=$(pwd)
         CONTAINER_IMAGE   = "${IMAGE_NAME}:${IMAGE_TAG}"
     }
 
@@ -57,8 +57,6 @@ pipeline {
             cp src/main/resources/database/create.sql create.sql
             ls
 
-            echo "Starting MySQL container"
-             WK=$(pwd)
             echo "WORKDIR = $WK"
             docker run --name mysql \
             --network paymybuddy-net \
