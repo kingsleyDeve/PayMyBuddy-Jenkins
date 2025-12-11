@@ -14,10 +14,9 @@ pipeline {
         PROD_API_ENDPOINT = "ip10-0-57-9-d4bogugltosglhl3v92g-1993.direct.docker.labs.eazytraining.fr"
         PROD_APP_ENDPOINT = "ip10-0-57-9-d4bogugltosglhl3v92g-80.direct.docker.labs.eazytraining.fr"
 
-        INTERNAL_PORT     = "5000"
-        EXTERNAL_PORT     = "${PORT_EXPOSED}"
+        port = 80
 
-        CONTAINER_IMAGE   = "${ID_DOCKER}/${IMAGE_NAME}:${IMAGE_TAG}"
+        CONTAINER_IMAGE   = "${IMAGE_NAME}:${IMAGE_TAG}"
     }
 
     stages {
@@ -49,9 +48,7 @@ pipeline {
 
                     echo 'Running container'
                     docker run --name ${IMAGE_NAME} \
-                        -p ${EXTERNAL_PORT}:${INTERNAL_PORT} \
-                        -e PORT=${INTERNAL_PORT} \
-                        ${CONTAINER_IMAGE}
+                        -p  8081:${port} ${CONTAINER_IMAGE}
 
                     echo 'Waiting for application startup'
                     sleep 5
