@@ -48,7 +48,11 @@ pipeline {
 
                     echo 'Running container'
                     docker run --name ${IMAGE_NAME} \
-                        -p  8081:${port} ${CONTAINER_IMAGE}
+                    -e SPRING_DATASOURCE_URL="jdbc:mysql://172.17.0.1:3306/db_paymybuddy" \
+                    -e SPRING_DATASOURCE_USERNAME="root" \
+                    -e SPRING_DATASOURCE_PASSWORD="password" \
+                    -p 8081:${port} \
+                    ${CONTAINER_IMAGE}
 
                     cat /etc/mysql/mysql.conf.d/mysqld.cnf | grep bind-address 
 
