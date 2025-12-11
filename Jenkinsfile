@@ -56,7 +56,7 @@ pipeline {
                 mysql:8.0
                 
                 cd src/main/resources/database
-              docker exec -i mysql mysql -uroot -ppassword db_paymybuddy < create.sql
+              docker exec -i mysql -h127.0.0.1 -uroot -ppassword db_paymybuddy < create.sql
                     sleep 10
                     
 
