@@ -46,12 +46,23 @@ pipeline {
                     echo 'Building Docker image'
                     docker build -t ${CONTAINER_IMAGE} .
 
+                    docker run -d --name mysql \
+                    --network paymybuddy-net \
+                -e MYSQL_ROOT_PASSWORD=password \
+                -e MYSQL_DATABASE=db_paymybuddy \
+                -p 3306:3306 \
+                mysql:8.0
+
+                    sleep 10
                     docker rm -f ${IMAGE_NAME} || true
 
                     docker ps
-                        
+                    docker network create paymybuddy-net || true
+                    docker network connect paymybuddy-net mysql
+    
                     echo 'Running container'
                     docker run --name ${IMAGE_NAME} \
+                    --network paymybuddy-net \
                     -p 8081:8080 \
                     ${CONTAINER_IMAGE}
 
