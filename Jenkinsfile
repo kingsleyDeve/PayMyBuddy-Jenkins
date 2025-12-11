@@ -42,6 +42,7 @@ pipeline {
             agent any
             steps {
                 sh """
+                    cp src/main/resources/database/create.sql create.sql
                     docker stop ${IMAGE_NAME} && docker rm -f ${IMAGE_NAME}
                     docker stop mysql && docker rm -f mysql
                     docker network create paymybuddy-net || true
@@ -58,7 +59,7 @@ pipeline {
                 -e MYSQL_PASSWORD=pass \
                 -e MYSQL_USER=tes \
                 -e MYSQL_DATABASE=db_paymybuddy \
-                -v /var/jenkins_home/workspace/test/src/main/resources/database/create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
+                -v $(pwd)/create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
                 -p 3306:3306 \
                 mysql:8.0
              
