@@ -58,16 +58,15 @@ pipeline {
             ls
 
             echo "Starting MySQL container"
-            docker run --name mysql \
-                --network paymybuddy-net \
-                -e MYSQL_ROOT_PASSWORD=pass \
-                -e MYSQL_PASSWORD=pass \
-                -e MYSQL_USER=tes \
-                -e MYSQL_DATABASE=db_paymybuddy \
-                -v ./var/jenkins_home/workspace/test/create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
-                -p 3306:3306 \
-                -d \
-                mysql:8.0
+             docker run --name mysql \
+            --network paymybuddy-net \
+            -e MYSQL_ROOT_PASSWORD=pass \
+            -e MYSQL_PASSWORD=pass \
+            -e MYSQL_USER=tes \
+            -e MYSQL_DATABASE=db_paymybuddy \
+            -v $(pwd)/create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
+            -p 3306:3306 \
+            -d mysql:8.0
 
 
             docker exec mysql ls -l /docker-entrypoint-initdb.d
