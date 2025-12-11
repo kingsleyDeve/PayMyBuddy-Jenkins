@@ -41,7 +41,8 @@ pipeline {
             agent any
             steps {
                 sh """
-                    
+                    docker stop ${IMAGE_NAME} && docker rm -f ${IMAGE_NAME}
+                    docker stop mysql && docker rm -f mysql
                     docker network create paymybuddy-net || true
                     
                     echo 'Building Docker image'
@@ -54,9 +55,10 @@ pipeline {
                 -p 3306:3306 \
                 mysql:8.0
 
-                
+                docker exec -it mysql bash
+                mysql  -u root -p < create.sql
                     sleep 10
-                    docker rm -f ${IMAGE_NAME} || true
+                    
 
                     docker ps
                     
