@@ -60,7 +60,7 @@ pipeline {
 
             
 
-            docker run -d --net paymybuddy-net --name mysql -e MYSQL_DATABASE=db_paymybuddy -e MYSQL_USER=tes -e MYSQL_PASSWORD=pass -e MYSQL_ROOT_PASSWORD=pass -v paymybuddy-data:/var/lib/mysql -v ./create.sql:/docker-entrypoint-initdb.d/create.sql:ro -p 3306:3306 mysql
+            docker run -d --net paymybuddy-net --name mysql -e MYSQL_DATABASE=db_paymybuddy -e MYSQL_USER=tes -e MYSQL_PASSWORD=pass -e MYSQL_ROOT_PASSWORD=pass -v paymybuddy-data:/var/lib/mysql -v ./var/jenkins_home/workspace/test/create.sql:/docker-entrypoint-initdb.d/create.sql:ro -p 3306:3306 mysql
             
             docker exec mysql ls -la /docker-entrypoint-initdb.d
             
