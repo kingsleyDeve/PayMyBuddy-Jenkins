@@ -45,10 +45,10 @@ pipeline {
             # Nettoyage préalable
             docker stop ${IMAGE_NAME} || true
             docker rm -f ${IMAGE_NAME} || true
-            docker stop mysql || true
-            docker rm -f mysql || true
+            docker stop paymybuddy-db || true
+            docker rm  paymybuddy-db || true
              docker volume rm  paymybuddy-data || true
-            docker network create paymybuddy-net || true
+            docker network create paymybuddy-network || true
 
             echo "Building app image"
             docker build -t ${CONTAINER_IMAGE} .
@@ -60,20 +60,15 @@ pipeline {
 
             
 
-            docker run -d --net paymybuddy-net --name mysql -e MYSQL_DATABASE=db_paymybuddy -e MYSQL_USER=tes -e MYSQL_PASSWORD=pass -e MYSQL_ROOT_PASSWORD=pass -v paymybuddy-data:/var/lib/mysql -v ./src/main/resources/database/create.sql:/docker-entrypoint-initdb.d/create.sql -p 3306:3306 mysql
-            
+            docker compose up -d          
+                
             docker exec mysql ls -la /docker-entrypoint-initdb.d
             
             sleep 12
 
             docker ps
 
-            echo "Running backend container"
-            docker run --name ${IMAGE_NAME} \
-                --network paymybuddy-net \
-                -p 8081:8080 \
-                -d \
-                ${CONTAINER_IMAGE}
+           
 
             echo "Waiting for application startup"
             sleep 8
