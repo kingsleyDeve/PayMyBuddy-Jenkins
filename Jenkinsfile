@@ -56,7 +56,7 @@ pipeline {
             # Copie du SQL dans le workspace
             ls
 
-          
+              apt-get update -y
             apt-get install docker-compose-plugin
             
 
