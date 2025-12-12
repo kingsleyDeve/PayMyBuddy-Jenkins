@@ -60,7 +60,7 @@ pipeline {
 
             
 
-            docker compose up -d          
+            docker-compose up -d          
                 
             docker exec mysql ls -la /docker-entrypoint-initdb.d
             
