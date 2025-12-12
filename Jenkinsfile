@@ -57,10 +57,10 @@ pipeline {
             ls
 
           
-
+            apt-get install docker-compose-plugin
             
 
-            docker-compose up -d          
+            docker compose up -d          
                 
             docker exec mysql ls -la /docker-entrypoint-initdb.d
             
