@@ -27,7 +27,7 @@ pipeline {
             agent any
             steps {
                 sh '''
-                    ls -la
+                    ls -la src/main/resources/database
                     chmod +x mvnw
                     ./mvnw clean install -DskipTests
 
