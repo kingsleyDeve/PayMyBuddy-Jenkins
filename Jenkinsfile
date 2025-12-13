@@ -63,7 +63,7 @@ pipeline {
     -e MYSQL_PASSWORD=pass \
     -e MYSQL_USER=tes \
     -e MYSQL_DATABASE=db_paymybuddy \
-    -v ${WORKSPACE}/src/main/resources/database/create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
+    -v ${WORKSPACE}/src/main/resources/database/create.sql:/docker-entrypoint-initdb.d/init.sql:ro \
     -p 3306:3306 -d mysql:8.0         
 
 
@@ -73,7 +73,7 @@ pipeline {
                 -d \
                 ${CONTAINER_IMAGE}
                 
-            docker exec mysql ls -la /docker-entrypoint-initdb.d
+            docker exec mysql ls -la /docker-entrypoint-initdb.d/
             
             sleep 12
 
