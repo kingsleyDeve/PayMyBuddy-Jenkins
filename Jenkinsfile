@@ -26,8 +26,10 @@ pipeline {
         stage('Unit Tests') {
             agent any
             steps {
+
                 sh '''
-                    ls -la src/main/resources/database
+                    head -5 /var/jenkins_home/workspace/test/src/main/resources/database/create.sql
+
                     chmod +x mvnw
                     ./mvnw clean install -DskipTests
 
