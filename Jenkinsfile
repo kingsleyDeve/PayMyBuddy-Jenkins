@@ -60,7 +60,20 @@ pipeline {
             apt-get install docker-compose-plugin
             
 
-            docker compose up -d          
+            docker run --name mysql --network paymybuddy-net \
+    -e MYSQL_ROOT_PASSWORD=pass \
+    -e MYSQL_PASSWORD=pass \
+    -e MYSQL_USER=tes \
+    -e MYSQL_DATABASE=db_paymybuddy \
+    -v ${WORKSPACE}/create.sql:/docker-entrypoint-initdb.d/create.sql:ro \
+    -p 3306:3306 -d mysql:8.0         
+
+
+            docker run --name ${IMAGE_NAME} \
+                --network paymybuddy-net \
+                -p 8081:8080 \
+                -d \
+                ${CONTAINER_IMAGE}
                 
             docker exec mysql ls -la /docker-entrypoint-initdb.d
             
