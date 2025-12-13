@@ -53,18 +53,17 @@ pipeline {
             docker network create paymybuddy-network || true
             docker volume prune -f
             docker build -t ${CONTAINER_IMAGE} .
-
+            docker build -f Dockerfile-db -t mysqldb .
             # Copie du SQL dans le workspace
             ls
             
 
-            docker run --name mysql --network paymybuddy-net \
+    docker run --name mysql --network paymybuddy-net \
     -e MYSQL_ROOT_PASSWORD=pass \
     -e MYSQL_PASSWORD=pass \
     -e MYSQL_USER=tes \
     -e MYSQL_DATABASE=db_paymybuddy \
-    -v ${WORKSPACE}/src/main/resources/database/create.sql:/docker-entrypoint-initdb.d/init.sql:ro \
-    -p 3306:3306 -d mysql:8.0         
+    -p 3306:3306 -d mysqldb        
 
 
             docker run --name ${IMAGE_NAME} \
