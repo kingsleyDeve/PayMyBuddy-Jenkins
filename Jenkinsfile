@@ -45,8 +45,8 @@ pipeline {
             # Nettoyage préalable
             docker stop ${IMAGE_NAME} || true
             docker rm -f ${IMAGE_NAME} || true
-            docker stop paymybuddy-db || true
-            docker rm  paymybuddy-db || true
+            docker stop mysql || true
+            docker rm  mysql || true
              docker volume rm  paymybuddy-data || true
             docker network create paymybuddy-network || true
 
