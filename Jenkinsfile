@@ -51,8 +51,7 @@ pipeline {
             docker rm  mysql || true
              docker volume rm  paymybuddy-data || true
             docker network create paymybuddy-network || true
-
-            echo "Building app image"
+            docker volume prune -f
             docker build -t ${CONTAINER_IMAGE} .
 
             # Copie du SQL dans le workspace
