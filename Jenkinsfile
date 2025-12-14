@@ -116,7 +116,6 @@ pipeline {
             }
         }
 
-        /* ---------------- DEPLOY STAGING ---------------- 
         stage('Deploy Staging') {
             when {
                 expression { env.GIT_BRANCH != "origin/main" }
@@ -135,7 +134,7 @@ pipeline {
                     """
                 }
             }
-        }*/
+        }
 
         /* ---------------- DEPLOY PRODUCTION ---------------- */
         stage('Deploy Production') {
