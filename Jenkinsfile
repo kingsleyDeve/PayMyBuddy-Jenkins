@@ -25,7 +25,7 @@ pipeline {
             agent any
             steps {
                 sh '''
-                    head -5 /var/jenkins_home/workspace/test/src/main/resources/database/create.sql
+                    echo "BRANCH_NAME = ${env.BRANCH_NAME}"
                     chmod +x mvnw
                     ./mvnw clean install -DskipTests
                     ./mvnw -B test
