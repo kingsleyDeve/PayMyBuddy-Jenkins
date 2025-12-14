@@ -71,7 +71,7 @@ pipeline {
                 --link mysql \
                 -d \
                 ${CONTAINER_IMAGE}
-            
+            sleep 10
             docker ps
             
         """
