@@ -60,7 +60,6 @@ pipeline {
     -e MYSQL_PASSWORD=pass \
     -e MYSQL_USER=tes \
     -e MYSQL_DATABASE=db_paymybuddy \
-    --health-cmd CMD,mysqladmin,ping,-h,localhost --health-interval 10s --health-retries 5 --health-timeout 5s \
     -p 3306:3306 -d mysqldb        
 
     sleep 30
@@ -83,7 +82,7 @@ pipeline {
         stage('Test image') {
             agent any
             steps {
-                sh "curl http://172.17.0.1:8081"
+                httpRequest "http://172.17.0.1:8081"
             }
         }
 
