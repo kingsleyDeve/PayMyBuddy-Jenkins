@@ -4,10 +4,10 @@ pipeline {
 
     environment {
         ID_DOCKER        = "${ID_DOCKER_PARAMS}"
-        IMAGE_NAME       = "paymybuddy"
+        IMAGE_NAME       = "kingsley95/paymybuddy"
         IMAGE_TAG        = "latest"
         APP_NAME         = "kingsley"
-
+        IMAGE_MYSQL      = "kingsley95/paymybuddy-db"
         STG_API_ENDPOINT  = "ip10-0-57-8-d4bogugltosglhl3v92g-1993.direct.docker.labs.eazytraining.fr"
         STG_APP_ENDPOINT  = "ip10-0-57-8-d4bogugltosglhl3v92g-80.direct.docker.labs.eazytraining.fr"
 
@@ -49,18 +49,16 @@ pipeline {
             docker rm -f ${IMAGE_NAME} || true
             docker stop mysql || true
             docker rm  mysql || true
-             docker volume rm  paymybuddy-data || true
             docker network create paymybuddy-network || true
-            docker volume prune -f
             docker build -t ${CONTAINER_IMAGE} .
-            docker build -f Dockerfile-db -t mysqldb .
+            docker build -f Dockerfile-db -t ${IMAGE_MYSQL} .
 
     docker run --name mysql --network paymybuddy-net \
     -e MYSQL_ROOT_PASSWORD=pass \
     -e MYSQL_PASSWORD=pass \
     -e MYSQL_USER=tes \
     -e MYSQL_DATABASE=db_paymybuddy \
-    -p 3306:3306 -d mysqldb        
+    -p 3306:3306 -d ${IMAGE_MYSQL}        
 
     sleep 30
 
@@ -115,9 +113,9 @@ pipeline {
             }
             steps {
                 sh '''
-                    docker login -u "${DOCKERHUB_USR}" -p ${DOCKERHUB_PSW}
-                    docker push kingsley95/${CONTAINER_IMAGE}
-                    docker push kingsley95/mysqldb
+                    docker login -u "${DOCKERHUB_USR}" --password-stdin ${DOCKERHUB_PSW}
+                    docker push ${CONTAINER_IMAGE}
+                    docker push ${IMAGE_MYSQL}
                 '''
             }
         }
