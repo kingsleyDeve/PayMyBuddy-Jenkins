@@ -63,6 +63,7 @@ pipeline {
     -e MYSQL_PASSWORD=pass \
     -e MYSQL_USER=tes \
     -e MYSQL_DATABASE=db_paymybuddy \
+    --health-cmd CMD,mysqladmin,ping,-h,localhost --health-interval 10s --health-retries 5 --health-timeout 5s \
     -p 3306:3306 -d mysqldb        
 
             docker run --name ${IMAGE_NAME} \
