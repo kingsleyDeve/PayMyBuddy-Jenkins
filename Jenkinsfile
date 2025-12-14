@@ -10,8 +10,8 @@ pipeline {
         IMAGE_TAG        = "latest"
         APP_NAME         = "kingsley"
         IMAGE_MYSQL      = "paymybuddy-db"
-        STAGING_SERVER   = "13.39.85.70"
-        PROD_SERVER      = "13.38.89.240"
+        STAGING_SERVER   = "15.237.159.75"
+        PROD_SERVER      = "13.39.14.243"
         DEPLOY_USER      = "ubuntu"
 
         CONTAINER_IMAGE        = "kingsley95/${IMAGE_NAME}:${IMAGE_TAG}"
