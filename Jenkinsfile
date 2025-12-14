@@ -8,13 +8,10 @@ pipeline {
         IMAGE_TAG        = "latest"
         APP_NAME         = "kingsley"
         IMAGE_MYSQL      = "paymybuddy-db"
-        STG_API_ENDPOINT  = "ip10-0-57-8-d4bogugltosglhl3v92g-1993.direct.docker.labs.eazytraining.fr"
-        STG_APP_ENDPOINT  = "ip10-0-57-8-d4bogugltosglhl3v92g-80.direct.docker.labs.eazytraining.fr"
-
-        PROD_API_ENDPOINT = "ip10-0-57-9-d4bogugltosglhl3v92g-1993.direct.docker.labs.eazytraining.fr"
-        PROD_APP_ENDPOINT = "ip10-0-57-9-d4bogugltosglhl3v92g-80.direct.docker.labs.eazytraining.fr"
-
-        port = 80
+        STAGING_SERVER = "13.220.199.237"
+        PROD_SERVER = "98.81.19.212"
+        DEPLOY_USER = "ubuntu"
+        
        
         CONTAINER_IMAGE   = "kingsley95/${IMAGE_NAME}:${IMAGE_TAG}"
         MYSQL_CONTAINER_IMAGE   = "kingsley95/${IMAGE_MYSQL}:${IMAGE_TAG}"
@@ -120,46 +117,93 @@ pipeline {
                 '''
             }
         }
+stages {
 
-        stage('STAGING - Deploy app') {
-            agent any
+        /* ---------------- STAGING ---------------- */
+        stage('Deploy Staging') {
+            when {
+                not { branch 'main' }   // s’exécute pour toutes les branches sauf main
+            }
             steps {
-                sh """
-                    echo '{\"your_name\":\"${APP_NAME}\",\"container_image\":\"${CONTAINER_IMAGE}\",\"external_port\":\"${EXTERNAL_PORT}\",\"internal_port\":\"${INTERNAL_PORT}\"}' > data.json
-                    curl -X POST http://${STG_API_ENDPOINT}/staging -H 'Content-Type: application/json' --data-binary @data.json
-                """
+                script {
+                    echo "Déploiement en STAGING sur ${STAGING_SERVER}..."
+                    deployServer(STAGING_SERVER, "staging-app", 8080)
+
+                    echo "Validation STAGING..."
+                    sh """
+                        until curl -sf http://${STAGING_SERVER}:8080/actuator/health; do
+                            echo "En attente du démarrage de l'application..."
+                            sleep 5
+                        done
+                    """
+                }
             }
         }
 
-        stage('PRODUCTION - Deploy app') {
-            agent any
-            when { branch 'main' }
+        /* ---------------- PRODUCTION ---------------- */
+        stage('Deploy Production') {
+            when {
+                branch 'main'   // ne s’exécute QUE sur main
+            }
             steps {
-                sh """
-                    curl -X POST http://${PROD_API_ENDPOINT}/prod -H 'Content-Type: application/json' \
-                        -d '{\"your_name\":\"${APP_NAME}\",\"container_image\":\"${CONTAINER_IMAGE}\",\"external_port\":\"${EXTERNAL_PORT}\",\"internal_port\":\"${INTERNAL_PORT}\"}'
-                """
+                script {
+                    echo "Déploiement en PRODUCTION sur ${PROD_SERVER}..."
+                    deployServer(PROD_SERVER, "prod-app", 8080)
+
+                    echo "Validation PRODUCTION..."
+                    sh """
+                        until curl -sf http://${PROD_SERVER}:8080/actuator/health; do
+                            echo "En attente du démarrage..."
+                            sleep 5
+                        done
+                    """
+                }
             }
         }
     }
 
     post {
-        always {
-            junit 'target/surefire-reports/*.xml'
-        }
-
         success {
             slackSend(
-                color: '#00FF00',
-                message: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' - PROD: http://${PROD_APP_ENDPOINT} - STAGING: http://${STG_APP_ENDPOINT}"
+                color: "good",
+                message: "SUCCESS : Pipeline OK pour ${env.BRANCH_NAME} (#${env.BUILD_NUMBER})"
             )
         }
-
         failure {
             slackSend(
-                color: '#FF0000',
-                message: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+                color: "danger",
+                message: "FAILURE : Pipeline échoué pour ${env.BRANCH_NAME} (#${env.BUILD_NUMBER})"
             )
         }
     }
+}
+
+
+/* --------------------------------------------------------
+   Fonction globale de déploiement
+-------------------------------------------------------- */
+def deployServer(String server, String containerName, int port) {
+    sshagent (credentials: ['deployapp']) {
+        sh """
+            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} "curl -fsSL https://get.docker.com | sh"
+            
+            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} "docker pull $CONTAINER_IMAGE"
+            
+            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} "docker pull $MYSQL_CONTAINER_IMAGE"
+
+            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
+                "docker stop paymybuddy || true && docker rm paymybuddy || true"
+                
+            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
+                "docker stop mysql || true && docker rm mysql || true"
+                
+            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
+                "docker run -d --name mysql -p 8080:8080 ${CONTAINER_IMAGE}"
+                
+            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
+                "docker run -d --name mysql -p 3306:3306 ${MYSQL_CONTAINER_IMAGE}"
+                
+        """
+    }
+}
 }
