@@ -66,7 +66,7 @@ pipeline {
     -p 3306:3306 -d mysqldb        
 
 
-        sleep 10
+        sleep 20
 
             docker run --name ${IMAGE_NAME} \
                 --network paymybuddy-net \
