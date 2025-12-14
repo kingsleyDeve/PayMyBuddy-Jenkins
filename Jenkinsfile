@@ -114,7 +114,7 @@ pipeline {
             }
             steps {
                 sh '''
-                    docker login -u "${DOCKERHUB_USR}" --password-stdin ${DOCKERHUB_PSW}
+                    echo "${DOCKERHUB_PSW}" | docker login -u "${DOCKERHUB_USR}" --password-stdin 
                     docker push ${CONTAINER_IMAGE}
                     docker push ${MYSQL_CONTAINER_IMAGE}
                 '''
