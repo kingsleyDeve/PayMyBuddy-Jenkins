@@ -185,20 +185,20 @@ def deployServer(String server) {
         sh """
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} "curl -fsSL https://get.docker.com | sh"
 
-            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} "docker pull ${CONTAINER_IMAGE}"
-            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} "docker pull ${MYSQL_CONTAINER_IMAGE}"
+            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} "sudo docker pull ${CONTAINER_IMAGE}"
+            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} "sudo docker pull ${MYSQL_CONTAINER_IMAGE}"
 
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
-                "docker stop paymybuddy || true && docker rm paymybuddy || true"
+                "sudo docker stop paymybuddy || true && sudo docker rm paymybuddy || true"
 
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
-                "docker stop mysql || true && docker rm mysql || true"
+                "sudo docker stop mysql || true && sudo docker rm mysql || true"
 
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
-                "docker run -d --name paymybuddy -p 8080:8080 ${CONTAINER_IMAGE}"
+                "sudo docker run -d --name paymybuddy -p 8080:8080 ${CONTAINER_IMAGE}"
 
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
-                "docker run -d --name mysql -p 3306:3306 ${MYSQL_CONTAINER_IMAGE}"
+                "sudo docker run -d --name mysql -p 3306:3306 ${MYSQL_CONTAINER_IMAGE}"
         """
     }
 }
