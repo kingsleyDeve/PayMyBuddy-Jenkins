@@ -71,11 +71,7 @@ pipeline {
                 -p 8081:8080 \
                 -d \
                 ${CONTAINER_IMAGE}
-                
-            docker exec mysql ls -la /docker-entrypoint-initdb.d/
             
-            sleep 12
-
             docker ps
 
            
