@@ -65,12 +65,10 @@ pipeline {
     -e MYSQL_DATABASE=db_paymybuddy \
     -p 3306:3306 -d mysqldb        
 
-
-        sleep 20
-
             docker run --name ${IMAGE_NAME} \
                 --network paymybuddy-net \
                 -p 8081:8080 \
+                --link mysql \
                 -d \
                 ${CONTAINER_IMAGE}
             
