@@ -119,7 +119,7 @@ pipeline {
         stage('Deploy Staging') {
             agent any
             when {
-                expression { env.BRANCH_NAME != "main" }
+                expression { env.GIT_BRANCH != "origin/main" }
             }
             steps {
                 script {
@@ -141,7 +141,7 @@ pipeline {
         stage('Deploy Production') {
             agent any
             when {
-                expression { env.BRANCH_NAME == "main" }
+                expression { env.GIT_BRANCH == "origin/main" }
             }
             steps {
                 script {
