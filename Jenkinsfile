@@ -66,6 +66,8 @@ pipeline {
     -p 3306:3306 -d mysqldb        
 
 
+        sleep 10
+
             docker run --name ${IMAGE_NAME} \
                 --network paymybuddy-net \
                 -p 8081:8080 \
@@ -77,7 +79,7 @@ pipeline {
            
 
             echo "Waiting for application startup"
-            sleep 8
+            
         """
     }
 }
