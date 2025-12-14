@@ -119,7 +119,7 @@ pipeline {
         /* ---------------- DEPLOY STAGING ---------------- 
         stage('Deploy Staging') {
             when {
-                not { branch 'main' }
+                expression { env.GIT_BRANCH != "origin/main" }
             }
             steps {
                 script {
