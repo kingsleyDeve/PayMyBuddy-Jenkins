@@ -25,13 +25,31 @@ pipeline {
             agent any
             steps {
                 sh """
-                    echo "BRANCH_NAME = ${env.GIT_BRANCH}"
                     chmod +x mvnw
                     ./mvnw clean install -DskipTests
                     ./mvnw -B test
                 """
             }
         }
+
+        stage('SonarCloud') {
+            agent any
+            steps {
+                withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+                    sh """
+                        chmod +x mvnw
+                        ./mvnw -B verify sonar:sonar \
+                          -Dsonar.projectKey=kingsleyDeve_PayMyBuddy \
+                          -Dsonar.organization=kingsleydeve \
+                          -Dsonar.host.url=https://sonarcloud.io \
+                          -Dsonar.login=${SONAR_TOKEN}
+                    """
+                }
+            }
+        }
+
+
+        
 
         /* ---------------- BUILD DOCKER ---------------- */
         stage('Build & Run Docker Image') {
