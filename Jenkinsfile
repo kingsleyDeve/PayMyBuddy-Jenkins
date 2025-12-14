@@ -53,7 +53,7 @@ pipeline {
             docker network create paymybuddy-network || true
             docker volume prune -f
             docker build -t ${CONTAINER_IMAGE} .
-            docker build -f Dockerfile-db -t mysqldb 
+            docker build -f Dockerfile-db -t mysqldb .
 
     docker run --name mysql --network paymybuddy-net \
     -e MYSQL_ROOT_PASSWORD=pass \
