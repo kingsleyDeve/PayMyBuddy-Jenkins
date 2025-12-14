@@ -140,7 +140,7 @@ pipeline {
         /* ---------------- DEPLOY PRODUCTION ---------------- */
         stage('Deploy Production') {
             when {
-                branch 'main'
+                expression { env.GIT_BRANCH == "origin/main" }
             }
             steps {
                 script {
