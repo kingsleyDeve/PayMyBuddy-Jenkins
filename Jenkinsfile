@@ -92,6 +92,8 @@ pipeline {
                 sh '''
                     docker stop paymybuddy || true
                     docker rm paymybuddy || true
+                    docker stop mysql || true
+                    docker rm mysql || true
                 '''
             }
         }
@@ -101,6 +103,7 @@ pipeline {
             steps {
                 sh '''
                     docker save ${CONTAINER_IMAGE} > /tmp/paymybuddy.tar
+                    docker save mysqldb > /tmp/mysqldb.tar
                 '''
             }
         }
@@ -108,12 +111,13 @@ pipeline {
         stage('Login and Push Image on Docker Hub') {
             agent any
             environment {
-                DOCKERHUB_CREDS = credentials('dockerhub-credentials')
+                DOCKERHUB = credentials('dockerhub')
             }
             steps {
                 sh '''
-                    echo "${DOCKERHUB_CREDS_PSW}" | docker login -u "${DOCKERHUB_CREDS_USR}" --password-stdin
+                    echo "${DOCKERHUB_PSW}" | docker login -u "${DOCKERHUB_USR}" --password-stdin
                     docker push ${CONTAINER_IMAGE}
+                    docker push mysqldb
                 '''
             }
         }
