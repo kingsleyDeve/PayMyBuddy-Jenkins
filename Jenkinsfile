@@ -180,8 +180,7 @@ stages {
 
 
 
-    }
-}
+   
 }
 /* --------------------------------------------------------
    Fonction globale de déploiement
@@ -208,3 +207,5 @@ def deployServer(String server) {
                 "docker run -d --name mysql -p 3306:3306 ${MYSQL_CONTAINER_IMAGE}"
                 
         """
+ }
+}
