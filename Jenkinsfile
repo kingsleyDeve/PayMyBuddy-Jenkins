@@ -194,6 +194,12 @@ def deployServer(String server) {
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
                 "sudo docker stop mysql || true && sudo docker rm mysql || true"
 
+             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
+                 "sudo docker network rm paymybuddy-net || true"
+
+                 ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
+                 "sudo docker network create paymybuddy-net || true"
+
                  ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
                 "sudo docker run -d --name mysql  --network paymybuddy-net \
                         -e MYSQL_ROOT_PASSWORD=pass \
@@ -202,9 +208,7 @@ def deployServer(String server) {
                         -e MYSQL_DATABASE=db_paymybuddy -p 3306:3306 ${MYSQL_CONTAINER_IMAGE}"
             
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
-                "sudo docker run -d --name paymybuddy -p 8080:8080 ${CONTAINER_IMAGE}"
-
-       
+                "sudo docker run -d --name paymybuddy -p 8080:8080 ${CONTAINER_IMAGE}"       
         """
     }
 }
