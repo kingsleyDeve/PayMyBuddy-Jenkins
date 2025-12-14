@@ -4,10 +4,10 @@ pipeline {
 
     environment {
         ID_DOCKER        = "${ID_DOCKER_PARAMS}"
-        IMAGE_NAME       = "kingsley95/paymybuddy"
+        IMAGE_NAME       = "paymybuddy"
         IMAGE_TAG        = "latest"
         APP_NAME         = "kingsley"
-        IMAGE_MYSQL      = "kingsley95/paymybuddy-db"
+        IMAGE_MYSQL      = "paymybuddy-db"
         STG_API_ENDPOINT  = "ip10-0-57-8-d4bogugltosglhl3v92g-1993.direct.docker.labs.eazytraining.fr"
         STG_APP_ENDPOINT  = "ip10-0-57-8-d4bogugltosglhl3v92g-80.direct.docker.labs.eazytraining.fr"
 
@@ -16,7 +16,8 @@ pipeline {
 
         port = 80
        
-        CONTAINER_IMAGE   = "${IMAGE_NAME}:${IMAGE_TAG}"
+        CONTAINER_IMAGE   = "kingsley95/${IMAGE_NAME}:${IMAGE_TAG}"
+        MYSQL_CONTAINER_IMAGE   = "kingsley95/${IMAGE_MYSQL}:${IMAGE_TAG}"
     }
 
     stages {
@@ -115,7 +116,7 @@ pipeline {
                 sh '''
                     docker login -u "${DOCKERHUB_USR}" --password-stdin ${DOCKERHUB_PSW}
                     docker push ${CONTAINER_IMAGE}
-                    docker push ${IMAGE_MYSQL}
+                    docker push ${MYSQL_CONTAINER_IMAGE}
                 '''
             }
         }
