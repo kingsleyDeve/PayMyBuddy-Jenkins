@@ -118,7 +118,7 @@ pipeline {
 
         stage('Deploy Staging') {
             when {
-                expression { env.GIT_BRANCH != "origin/main" }
+                expression { env.BRANCH_NAME != "main" }
             }
             steps {
                 script {
@@ -139,7 +139,7 @@ pipeline {
         /* ---------------- DEPLOY PRODUCTION ---------------- */
         stage('Deploy Production') {
             when {
-                expression { env.GIT_BRANCH == "origin/main" }
+                expression { env.BRANCH_NAME == "main" }
             }
             steps {
                 script {
