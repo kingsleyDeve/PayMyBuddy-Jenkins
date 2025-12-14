@@ -25,7 +25,7 @@ pipeline {
             agent any
             steps {
                 sh '''
-                    
+                    echo "BRANCH_NAME = ${env.BRANCH_NAME}"
                     chmod +x mvnw
                     ./mvnw clean install -DskipTests
                     ./mvnw -B test
