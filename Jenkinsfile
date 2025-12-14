@@ -53,10 +53,7 @@ pipeline {
             docker network create paymybuddy-network || true
             docker volume prune -f
             docker build -t ${CONTAINER_IMAGE} .
-            docker build -f Dockerfile-db -t mysqldb .
-            # Copie du SQL dans le workspace
-            ls
-            
+            docker build -f Dockerfile-db -t mysqldb 
 
     docker run --name mysql --network paymybuddy-net \
     -e MYSQL_ROOT_PASSWORD=pass \
@@ -65,6 +62,13 @@ pipeline {
     -e MYSQL_DATABASE=db_paymybuddy \
     --health-cmd CMD,mysqladmin,ping,-h,localhost --health-interval 10s --health-retries 5 --health-timeout 5s \
     -p 3306:3306 -d mysqldb        
+
+    until [ "$(docker inspect -f '{{.State.Health.Status}}' mysql)" == "healthy" ]; do
+                STATUS=$(docker inspect -f '{{.State.Health.Status}}' mysql)
+                echo "MySQL status: $STATUS - Attente..."
+                sleep 3
+            done
+
 
             docker run --name ${IMAGE_NAME} \
                 --network paymybuddy-net \
