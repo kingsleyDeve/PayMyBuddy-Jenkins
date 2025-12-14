@@ -76,7 +76,7 @@ pipeline {
             
             docker ps
 
-           docker exec mysql mysql -uroot -ppass db_paymybuddy -e "SHOW TABLES;"
+           docker exec mysql mysql -utes -ppass db_paymybuddy -e "SHOW TABLES;"
 
             echo "Waiting for application startup"
             
