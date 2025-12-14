@@ -116,7 +116,7 @@ pipeline {
             }
         }
 
-        /* ---------------- DEPLOY STAGING ---------------- */
+        /* ---------------- DEPLOY STAGING ---------------- 
         stage('Deploy Staging') {
             when {
                 not { branch 'main' }
@@ -135,7 +135,7 @@ pipeline {
                     """
                 }
             }
-        }
+        }*/
 
         /* ---------------- DEPLOY PRODUCTION ---------------- */
         stage('Deploy Production') {
