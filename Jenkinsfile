@@ -63,11 +63,7 @@ pipeline {
     --health-cmd CMD,mysqladmin,ping,-h,localhost --health-interval 10s --health-retries 5 --health-timeout 5s \
     -p 3306:3306 -d mysqldb        
 
-    until [ "$(docker inspect -f '{{.State.Health.Status}}' mysql)" == "healthy" ]; do
-                STATUS=$(docker inspect -f '{{.State.Health.Status}}' mysql)
-                echo "MySQL status: $STATUS - Attente..."
-                sleep 3
-            done
+    sleep 30
 
 
             docker run --name ${IMAGE_NAME} \
