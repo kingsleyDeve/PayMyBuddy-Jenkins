@@ -127,7 +127,7 @@ stages {
             steps {
                 script {
                     echo "Déploiement en STAGING sur ${STAGING_SERVER}..."
-                    deployServer(STAGING_SERVER, "staging-app", 8080)
+                    deployServer(STAGING_SERVER)
 
                     echo "Validation STAGING..."
                     sh """
@@ -148,7 +148,7 @@ stages {
             steps {
                 script {
                     echo "Déploiement en PRODUCTION sur ${PROD_SERVER}..."
-                    deployServer(PROD_SERVER, "prod-app", 8080)
+                    deployServer(PROD_SERVER)
 
                     echo "Validation PRODUCTION..."
                     sh """
@@ -182,7 +182,7 @@ stages {
 /* --------------------------------------------------------
    Fonction globale de déploiement
 -------------------------------------------------------- */
-def deployServer(String server, String containerName, int port) {
+def deployServer(String server) {
     sshagent (credentials: ['deployapp']) {
         sh """
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} "curl -fsSL https://get.docker.com | sh"
