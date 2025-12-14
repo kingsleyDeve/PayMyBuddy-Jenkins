@@ -117,6 +117,7 @@ pipeline {
         }
 
         stage('Deploy Staging') {
+            agent any
             when {
                 expression { env.BRANCH_NAME != "main" }
             }
@@ -138,6 +139,7 @@ pipeline {
 
         /* ---------------- DEPLOY PRODUCTION ---------------- */
         stage('Deploy Production') {
+            agent any
             when {
                 expression { env.BRANCH_NAME == "main" }
             }
