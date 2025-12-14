@@ -128,7 +128,7 @@ pipeline {
 
                     echo "Validation STAGING..."
                     sh """
-                        until curl -sf http://${STAGING_SERVER}:8080/actuator/health; do
+                        until curl -sf http://${STAGING_SERVER}:8080/login; do
                             echo "En attente du démarrage de l'application..."
                             sleep 5
                         done
@@ -150,7 +150,7 @@ pipeline {
 
                     echo "Validation PRODUCTION..."
                     sh """
-                        until curl -sf http://${PROD_SERVER}:8080/actuator/health; do
+                        until curl -sf http://${PROD_SERVER}:8080/login; do
                             echo "En attente du démarrage..."
                             sleep 5
                         done
