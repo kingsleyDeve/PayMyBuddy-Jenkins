@@ -82,7 +82,7 @@ pipeline {
         stage('Test image') {
             agent any
             steps {
-                httpRequest "172.17.0.1:8081/login"
+                sh "curl http://172.17.0.1:8081/login"
             }
         }
 
