@@ -92,7 +92,7 @@ pipeline {
             steps {
                 sh """
                     echo 'Testing application on http://127.0.0.1:8081'
-                    curl --retry 7 --retry-delay 3 http://127.0.0.1:8081
+                    curl --retry 7 --retry-delay 3 http://172.17.0.1:8081
                 """
             }
         }
