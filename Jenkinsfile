@@ -67,9 +67,9 @@ pipeline {
                     docker build -f Dockerfile-db -t ${IMAGE_MYSQL} .
 
                     docker run --name mysql --network paymybuddy-net \
-                        -e MYSQL_ROOT_PASSWORD=pass \
-                        -e MYSQL_PASSWORD=pass \
-                        -e MYSQL_USER=tes \
+                        -e MYSQL_ROOT_PASSWORD=password \
+                        -e MYSQL_PASSWORD=password \
+                        -e MYSQL_USER=test \
                         -e MYSQL_DATABASE=db_paymybuddy \
                         -p 3306:3306 -d ${IMAGE_MYSQL}
 
@@ -220,9 +220,9 @@ def deployServer(String server) {
 
                  ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
                 "sudo docker run -d --name mysql  --network paymybuddy-net \
-                        -e MYSQL_ROOT_PASSWORD=pass \
-                        -e MYSQL_PASSWORD=pass \
-                        -e MYSQL_USER=tes \
+                        -e MYSQL_ROOT_PASSWORD=password \
+                        -e MYSQL_PASSWORD=password \
+                        -e MYSQL_USER=test \
                         -e MYSQL_DATABASE=db_paymybuddy -p 3306:3306 ${MYSQL_CONTAINER_IMAGE}"
             
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
