@@ -129,9 +129,10 @@ docker run -d --name paymybuddy -p 8080:8080 --link mysql kingsley95/paymybuddy:
 <ul>
   <li>🟢 Success message with deployment URLs</li>
   <li>🔴 Failure message with error details</li>
-  <li>**![PayMyBuddy Pipeline Overview](https://github.com/kingsleyDeve/PayMyBuddy-Jenkins/blob/main/jenkins.png)**</li>
+  
 </ul>
 
+**![PayMyBuddy Overview](https://github.com/kingsleyDeve/PayMyBuddy-Jenkins/blob/main/jenkins.png)**
 <hr/>
 
 <h2>👤 Author</h2>
