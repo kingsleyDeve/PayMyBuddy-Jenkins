@@ -204,10 +204,10 @@ def deployServer(String server) {
 
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} "sudo docker pull ${CONTAINER_IMAGE}"
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} "sudo docker pull ${MYSQL_CONTAINER_IMAGE}"
-            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server}  docker stop paymybuddy || true
-            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} docker rm -f paymybuddy || true
-            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server}  docker stop mysql || true
-            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} docker rm -f mysql || true
+            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server}  "sudo docker stop paymybuddy || true"
+            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} "sudo docker rm -f paymybuddy || true"
+            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server}  "sudo docker stop mysql || true"
+            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} "sudo docker rm -f mysql || true"
                  ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
                  "sudo docker network create paymybuddy-net || true"
 
