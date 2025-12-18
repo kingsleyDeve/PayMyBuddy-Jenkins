@@ -224,12 +224,8 @@ def deployServer(String server) {
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
                 "sudo docker run -d --name paymybuddy --network paymybuddy-net -p 8080:8080 ${CONTAINER_IMAGE}" 
 
-                ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
-            "until curl -sf http://${PROD_SERVER}:8080/actuator/health; do \
-              echo "Waiting for application..." \
-              sleep 5 \
-             done
-            "
+            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
+              "until curl -sf http://${PROD_SERVER}:8080/actuator/health; do echo 'Waiting for application...'; sleep 5; done"
         """
     }
 }
