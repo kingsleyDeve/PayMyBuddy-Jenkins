@@ -27,8 +27,42 @@ This project demonstrates:
   </li>
   <li>✔ Slack notifications for success or failure</li>
 </ul>
+<hr/>
+
+
+<h2>🔐 Prerequisites</h2>
+
+<p>Before running this project, make sure you have the following requirements installed and properly configured:</p>
+
+<ul>
+  <li>🐳 <strong>Docker</strong> (latest stable version)</li>
+  <li>☕ <strong>Java 17</strong> </li>
+  <li>📦 <strong>Maven</strong> (or Maven Wrapper included in the project)</li>
+  <li>🔧 <strong>Jenkins</strong> with the following plugins:
+    <ul>
+      <li>SSH Agent</li>
+      <li>Slack Notification</li>
+    </ul>
+  </li>
+  <li>☁️ A <strong>Linux server (AWS EC2)</strong> with:
+    <ul>
+      <li>Docker installed</li>
+      <li>Port <strong>8080</strong> opened</li>
+      <li>SSH access enabled</li>
+    </ul>
+  </li>
+  <li>🔑 A valid <strong>SSH key</strong> configured in Jenkins credentials</li>
+  <li>🐳 A valid <strong>DockerHub credentials</strong> configured in Jenkins credentials</li>
+  <li>🔑 A valid <strong>Sonar token</strong> configured in Jenkins credentials</li>
+  <li>💬 A <strong>Slack workspace</strong> with an incoming webhook or token</li>
+  
+</ul>
 
 <hr/>
+
+
+
+
 
 <h2>📦 Project Architecture</h2>
 
