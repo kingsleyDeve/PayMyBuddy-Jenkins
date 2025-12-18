@@ -10,7 +10,7 @@ pipeline {
         IMAGE_TAG        = "latest"
         IMAGE_MYSQL      = "paymybuddy-db"
         STAGING_SERVER   = "52.47.108.120"
-        PROD_SERVER      = "35.180.97.39"
+        PROD_SERVER      = "35.180.242.183"
         DEPLOY_USER      = "ubuntu"
 
         CONTAINER_IMAGE        = "kingsley95/${IMAGE_NAME}:${IMAGE_TAG}"
@@ -216,10 +216,20 @@ def deployServer(String server) {
                         -e MYSQL_DATABASE=db_paymybuddy -p 3306:3306 ${MYSQL_CONTAINER_IMAGE}"
             
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
-            "sleep 30"
+            "until sudo docker exec mysql mysqladmin ping -h localhost --silent; do \
+              echo "Waiting for MySQL..." \
+              sleep 5 \
+              done"
             
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
                 "sudo docker run -d --name paymybuddy --network paymybuddy-net -p 8080:8080 ${CONTAINER_IMAGE}" 
+
+                ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
+            "until curl -sf http://${PROD_SERVER}:8080/actuator/health; do \
+              echo "Waiting for application..." \
+              sleep 5 \
+             done
+            "
         """
     }
 }
