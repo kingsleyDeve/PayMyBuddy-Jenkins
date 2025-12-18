@@ -227,7 +227,7 @@ def deployServer(String server) {
             "sleep 30"
             
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
-                "sudo docker run -d --name paymybuddy -p 8080:8080 ${CONTAINER_IMAGE}" 
+                "sudo docker run -d --name paymybuddy --network paymybuddy-net -p 8080:8080 ${CONTAINER_IMAGE}" 
 
                 ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
             "sleep 20"
