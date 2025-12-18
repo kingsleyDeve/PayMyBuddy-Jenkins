@@ -135,6 +135,38 @@ docker run -d --name paymybuddy -p 8080:8080 --link mysql kingsley95/paymybuddy:
 **![PayMyBuddy Overview](https://github.com/kingsleyDeve/PayMyBuddy-Jenkins/blob/main/img/jenkins.png)**
 <hr/>
 
+
+<h2>✅ Deployment Validation</h2>
+
+<p>Each deployment is automatically validated to ensure the application is running correctly.</p>
+
+<ul>
+  <li>🔍 The application health is checked using an HTTP request after deployment</li>
+  <li>⏳ The pipeline waits until the service is fully available before continuing</li>
+  <li>🚫 If the application does not respond, the pipeline fails automatically</li>
+</ul>
+
+<p>This validation step guarantees that only successful and healthy deployments reach the next environment.</p>
+
+<p><strong>Example:</strong> the pipeline checks the <code>/login</code> or <code>/actuator/health</code> endpoint before confirming deployment success.</p>
+
+<strong>pipeline results</strong>
+
+  <img src="https://github.com/kingsleyDeve/PayMyBuddy-Jenkins/blob/main/img/jenkins-pipeline.PNG" alt="PayMyBuddy Jenkins Pipeline Overview">
+
+  <strong>AWS EC2</strong>
+
+  <img src="https://github.com/kingsleyDeve/PayMyBuddy-Jenkins/blob/main/img/jenkins_aws.PNG" alt="PayMyBuddy Jenkins Pipeline Overview">
+
+  
+  <strong>PayMyBuddy-app</strong>
+
+  <img src="https://github.com/kingsleyDeve/PayMyBuddy-Jenkins/blob/main/img/paymybuddy.PNG" alt="PayMyBuddy Jenkins Pipeline Overview">
+<hr/>
+
+
+
+
 <h2>👤 Author</h2>
 
 <p>
