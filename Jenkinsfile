@@ -167,6 +167,7 @@ pipeline {
 
                     echo "Validation PRODUCTION..."
                     sh """
+                            sleep 10
                             curl  http://${PROD_SERVER}:8080/login
                             echo "production deployed"
                            
@@ -204,15 +205,6 @@ def deployServer(String server) {
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} "sudo docker pull ${CONTAINER_IMAGE}"
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} "sudo docker pull ${MYSQL_CONTAINER_IMAGE}"
 
-            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
-                "sudo docker stop paymybuddy || true && sudo docker rm paymybuddy || true"
-
-            ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
-                "sudo docker stop mysql || true && sudo docker rm mysql || true"
-
-             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
-                 "sudo docker network rm paymybuddy-net || true"
-
                  ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
                  "sudo docker network create paymybuddy-net || true"
 
@@ -228,9 +220,6 @@ def deployServer(String server) {
             
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
                 "sudo docker run -d --name paymybuddy --network paymybuddy-net -p 8080:8080 ${CONTAINER_IMAGE}" 
-
-                ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
-            "sleep 20"
         """
     }
 }
