@@ -40,8 +40,8 @@ This project demonstrates:
   <li>📦 <strong>Maven</strong> (or Maven Wrapper included in the project)</li>
   <li>🔧 <strong>Jenkins</strong> with the following plugins:
     <ul>
-      <li>SSH Agent</li>
-      <li>Slack Notification</li>
+      <li>SSH Agent : allow to ssh remotly from Jenkins to AWS EC2 </li>
+      <li>Slack Notification : push notification to slack at the end of the pipeline</li>
     </ul>
   </li>
   <li>☁️ A <strong>Linux server (AWS EC2)</strong> with:
