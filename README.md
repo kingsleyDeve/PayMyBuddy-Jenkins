@@ -55,7 +55,7 @@ This project demonstrates:
   <li>🐳 A valid <strong>DockerHub credentials</strong> configured in Jenkins credentials</li>
   <li>🔑 A valid <strong>Sonar token</strong> configured in Jenkins credentials</li>
   <li>💬 A <strong>Slack workspace</strong> with an incoming webhook or token</li>
-  
+  <img src="https://github.com/kingsleyDeve/PayMyBuddy-Jenkins/blob/main/img/jenkins-cred.PNG" alt="PayMyBuddy Jenkins Pipeline Overview">
 </ul>
 
 <hr/>
