@@ -145,7 +145,7 @@ pipeline {
 
                     echo "Validation STAGING..."
                     sh """
-                        until curl -sf http://${STAGING_SERVER}:8080/login; do
+                        until curl  http://${STAGING_SERVER}:8080/login; do
                             echo "En attente du démarrage de l'application..."
                             sleep 5
                         done
@@ -167,8 +167,8 @@ pipeline {
 
                     echo "Validation PRODUCTION..."
                     sh """
-                        until curl -sf http://${PROD_SERVER}:8080/login; do
-                            echo "En attente du démarrage..."
+                         until curl  http://${PROD_SERVER}:8080/login; do
+                            echo "En attente du démarrage de l'application..."
                             sleep 5
                         done
                     """
@@ -228,7 +228,10 @@ def deployServer(String server) {
             "sleep 30"
             
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
-                "sudo docker run -d --name paymybuddy -p 8080:8080 ${CONTAINER_IMAGE}"       
+                "sudo docker run -d --name paymybuddy -p 8080:8080 ${CONTAINER_IMAGE}" 
+
+                ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
+            "sleep 20"
         """
     }
 }
