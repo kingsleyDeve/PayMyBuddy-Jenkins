@@ -132,7 +132,7 @@ docker run -d --name paymybuddy -p 8080:8080 --link mysql kingsley95/paymybuddy:
   
 </ul>
 
-**![PayMyBuddy Overview](https://github.com/kingsleyDeve/PayMyBuddy-Jenkins/blob/main/jenkins.png)**
+**![PayMyBuddy Overview](https://github.com/kingsleyDeve/PayMyBuddy-Jenkins/blob/main/img/jenkins.png)**
 <hr/>
 
 <h2>👤 Author</h2>
