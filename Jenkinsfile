@@ -5,13 +5,12 @@ pipeline {
     agent none
 
     environment {
-        ID_DOCKER        = "${ID_DOCKER_PARAMS}"
+        
         IMAGE_NAME       = "paymybuddy"
         IMAGE_TAG        = "latest"
-        APP_NAME         = "kingsley"
         IMAGE_MYSQL      = "paymybuddy-db"
-        STAGING_SERVER   = "15.237.159.75"
-        PROD_SERVER      = "13.39.14.243"
+        STAGING_SERVER   = "13.39.105.27"
+        PROD_SERVER      = "52.47.108.120"
         DEPLOY_USER      = "ubuntu"
 
         CONTAINER_IMAGE        = "kingsley95/${IMAGE_NAME}:${IMAGE_TAG}"
