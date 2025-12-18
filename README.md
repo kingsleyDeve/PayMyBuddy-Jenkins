@@ -152,7 +152,7 @@ docker run -d --name paymybuddy -p 8080:8080 --link mysql kingsley95/paymybuddy:
 
 <strong>pipeline results</strong>
 
-  <img src="https://github.com/kingsleyDeve/PayMyBuddy-Jenkins/blob/main/img/jenkins-pipeline.PNG" alt="PayMyBuddy Jenkins Pipeline Overview">
+  <img src="https://github.com/kingsleyDeve/PayMyBuddy-Jenkins/blob/main/img/image.png" alt="PayMyBuddy Jenkins Pipeline Overview">
 
   <strong>AWS EC2</strong>
 
