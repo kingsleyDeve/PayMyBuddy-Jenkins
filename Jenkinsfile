@@ -219,10 +219,7 @@ def deployServer(String server) {
                         -e MYSQL_DATABASE=db_paymybuddy -p 3306:3306 ${MYSQL_CONTAINER_IMAGE}"
             
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
-            "until sudo docker exec mysql mysqladmin ping -h localhost --silent; do \
-              echo "Waiting for MySQL..." \
-              sleep 5 \
-              done"
+            "until sudo docker exec mysql mysqladmin ping -h localhost --silent; do echo "Waiting for MySQL..."; sleep 5; done"
             
             ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${server} \
                 "sudo docker run -d --name paymybuddy --network paymybuddy-net -p 8080:8080 ${CONTAINER_IMAGE}" 
