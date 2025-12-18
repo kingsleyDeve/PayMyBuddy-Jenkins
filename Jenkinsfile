@@ -167,15 +167,14 @@ pipeline {
 
                     echo "Validation PRODUCTION..."
                     sh """
-                         until curl  http://${PROD_SERVER}:8080/login; do
-                            echo "En attente du démarrage de l'application..."
-                            sleep 5
-                        done
+                            curl  http://${PROD_SERVER}:8080/login
+                            echo "production deployed"
+                           
                     """
                 }
             }
         }
-    }  // ← fin du bloc stages
+    }  
 
     post {
         success {
